@@ -1,4 +1,4 @@
-unit uProductCode;
+unit uCurrency;
 
 interface
 
@@ -12,15 +12,15 @@ uses
   dxLayoutControl, cxDBEdit;
 
 type
-  TfrmProductCode = class(TfrmStgBase)
+  TfrmCurrency = class(TfrmStgBase)
     cxDBTextEdit1: TcxDBTextEdit;
     dxLayoutItem7: TdxLayoutItem;
     cxDBTextEdit2: TcxDBTextEdit;
     dxLayoutItem10: TdxLayoutItem;
-    procedure btnDuplicateClick(Sender: TObject);
-    procedure btnRefreshClick(Sender: TObject);
-    procedure FormShow(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
+    procedure btnDuplicateClick(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
     procedure dsStgBaseDataChange(Sender: TObject; Field: TField);
   private
@@ -30,7 +30,7 @@ type
   end;
 
 var
-  frmProductCode: TfrmProductCode;
+  frmCurrency: TfrmCurrency;
 
 implementation
 
@@ -38,36 +38,37 @@ implementation
 
 uses fBaseFind;
 
-procedure TfrmProductCode.btnDuplicateClick(Sender: TObject);
+procedure TfrmCurrency.btnDuplicateClick(Sender: TObject);
 begin
   inherited;
   CopyRow;
 end;
 
-procedure TfrmProductCode.btnFindClick(Sender: TObject);
+procedure TfrmCurrency.btnFindClick(Sender: TObject);
 begin
   inherited;
   Application.CreateForm(TfrmBaseFind,frmBaseFind);
-  frmBaseFind.ShowSQL('SELECT productcode as PRODUCT_CODE,description as DESCRIPTION FROM productcode_tab');
-  frmBaseFind.sSQLFind :='SELECT productcode as PRODUCT_CODE,description as DESCRIPTION FROM productcode_tab WHERE productcode LIKE :f1';
+  frmBaseFind.ShowSQL('SELECT currency_code as CURRENCY_CODE,description as DESCRIPTION FROM currency_tab');
+  frmBaseFind.sSQLFind :='SELECT currency_code as CURRENCY_CODE,description as DESCRIPTION FROM currency_tab WHERE currency_code LIKE :f1 OR description LIKE :f1 ';
   if frmBaseFind.ShowModal=mrOk then
-     OpenSQL('SELECT * FROM productcode_tab WHERE productcode LIKE'+QuotedStr(frmBaseFind.ReturnValue));
+     OpenSQL('SELECT * FROM currency_tab WHERE currency_code LIKE'+QuotedStr(frmBaseFind.ReturnValue));
+
 end;
 
-procedure TfrmProductCode.btnRefreshClick(Sender: TObject);
+procedure TfrmCurrency.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-   OpenSQL('SELECT * FROM productcode_tab limit 100');
+  OpenSQL('SELECT * FROM currency_tab limit 100');
 end;
 
-procedure TfrmProductCode.btnSaveClick(Sender: TObject);
+procedure TfrmCurrency.btnSaveClick(Sender: TObject);
 begin
   inherited;
-  if qrStgBase.State = dsInsert then
+   if qrStgBase.State = dsInsert then
   begin
-    if RowExist('SELECT COUNT(*)ct FROM productcode_tab WHERE productcode='+QuotedStr(qrStgBase.FieldByName('productcode').AsString))=True then
+    if RowExist('SELECT COUNT(*)ct FROM currency_tab WHERE currency_code='+QuotedStr(qrStgBase.FieldByName('currency_code').AsString))=True then
     begin
-       MessageDlg('Product Code already exist!',mtInformation,[mbOK],0);
+       MessageDlg('Currency Code already exist!',mtInformation,[mbOK],0);
        Abort;
     end
     else
@@ -77,7 +78,7 @@ begin
       qrStgBase.Post;
 end;
 
-procedure TfrmProductCode.dsStgBaseDataChange(Sender: TObject; Field: TField);
+procedure TfrmCurrency.dsStgBaseDataChange(Sender: TObject; Field: TField);
 begin
   inherited;
    if qrStgBase.State = dsEdit then
@@ -86,10 +87,10 @@ begin
      cxDBTextEdit1.Enabled :=True;
 end;
 
-procedure TfrmProductCode.FormShow(Sender: TObject);
+procedure TfrmCurrency.FormShow(Sender: TObject);
 begin
   inherited;
-  OpenSQL('SELECT * FROM productcode_tab limit 100');
+  OpenSQL('SELECT * FROM currency_tab limit 100');
 end;
 
 end.

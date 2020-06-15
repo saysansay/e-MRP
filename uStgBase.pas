@@ -62,6 +62,7 @@ type
     procedure cxButton2Click(Sender: TObject);
     procedure btnNextClick(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
   protected
@@ -223,6 +224,13 @@ begin
       qrStgBase.Cancel;
      CanClose :=True
   end
+end;
+
+procedure TfrmStgBase.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+   if Key =VK_RETURN then
+      SelectNext(ActiveControl,True,True);
 end;
 
 procedure TfrmStgBase.OpenSQL(sSQL, sWHERE, sOrderBy: string);

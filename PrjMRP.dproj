@@ -126,6 +126,30 @@
             <Form>frmWarehouse</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uLocation.pas">
+            <Form>frmLocation</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uCurrency.pas">
+            <Form>frmCurrency</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uRateType.pas">
+            <Form>frmRateType</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uRate.pas">
+            <Form>frmRate</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uBaseMstDtl.pas">
+            <Form>frmBaseMstDtl</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uItems.pas">
+            <Form>frmItems</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

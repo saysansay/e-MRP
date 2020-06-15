@@ -57,6 +57,10 @@ type
     M0003: TdxBarButton;
     M0004: TdxBarButton;
     M0005: TdxBarButton;
+    dxBarButton1: TdxBarButton;
+    M1008: TdxBarButton;
+    m1009: TdxBarButton;
+    m1010: TdxBarButton;
     procedure M2001Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure M1001Click(Sender: TObject);
@@ -66,6 +70,10 @@ type
     procedure M1005Click(Sender: TObject);
     procedure M1006Click(Sender: TObject);
     procedure M0006Click(Sender: TObject);
+    procedure M1007Click(Sender: TObject);
+    procedure M1008Click(Sender: TObject);
+    procedure m1009Click(Sender: TObject);
+    procedure M3001Click(Sender: TObject);
   private
     { Private declarations }
     procedure ShowForm(frmID :Integer);
@@ -84,7 +92,8 @@ implementation
 
 {$R *.dfm}
 
-uses dm, uSite, uAccGroup, uProductCode, uProductFamily, uUOM, uWarehouse;
+uses dm, uSite, uAccGroup, uProductCode, uProductFamily, uUOM, uWarehouse,
+  uLocation, uCurrency, uRateType, uItems;
 
 procedure TfrmMrp.M0006Click(Sender: TObject);
 begin
@@ -122,11 +131,31 @@ begin
   ShowForm(M1006.Tag);
 end;
 
+procedure TfrmMrp.M1007Click(Sender: TObject);
+begin
+  ShowForm(M1007.Tag);
+end;
+
+procedure TfrmMrp.M1008Click(Sender: TObject);
+begin
+  ShowForm(m1008.Tag);
+end;
+
+procedure TfrmMrp.m1009Click(Sender: TObject);
+begin
+  ShowForm(m1009.Tag);
+end;
+
 procedure TfrmMrp.M2001Click(Sender: TObject);
 begin
   if dmMRP.dlgMySQL.Execute then
      dmMRP.SaveConn;
 
+end;
+
+procedure TfrmMrp.M3001Click(Sender: TObject);
+begin
+  ShowForm(M3001.Tag);
 end;
 
 procedure TfrmMrp.ShowForm(frmID: Integer);
@@ -150,6 +179,20 @@ begin
    1006 : begin
        Application.CreateForm(TfrmWarehouse,frmWarehouse);
    end;
+   1007 : begin
+            Application.CreateForm(TfrmLocation,frmLocation);
+          end;
+
+  1008 : begin
+         Application.CreateForm(TfrmCurrency,frmCurrency);
+         end;
+  1009 : begin
+       Application.CreateForm(TfrmRateType,frmRateType);
+  end;
+
+  3001 : begin
+           Application.CreateForm(TfrmItems,frmItems);
+         end;
   end;
 end;
 

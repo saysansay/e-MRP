@@ -11,10 +11,12 @@ object frmStgBase: TfrmStgBase
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIChild
+  KeyPreview = True
   OldCreateOrder = False
   Visible = True
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object DL100001: TdxLayoutControl
@@ -24,10 +26,6 @@ object frmStgBase: TfrmStgBase
     Height = 380
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 24
-    ExplicitTop = 112
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object btnNew: TcxButton
       Left = 597
       Top = 10

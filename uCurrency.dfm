@@ -1,15 +1,9 @@
-inherited frmAccGroup: TfrmAccGroup
-  Caption = 'Accounting Group'
+inherited frmCurrency: TfrmCurrency
+  Caption = 'Currency '
   OnShow = FormShow
-  ExplicitWidth = 698
-  ExplicitHeight = 419
   PixelsPerInch = 96
   TextHeight = 13
   inherited DL100001: TdxLayoutControl
-    ExplicitLeft = 0
-    ExplicitTop = 0
-    ExplicitWidth = 682
-    ExplicitHeight = 380
     inherited btnNew: TcxButton
       TabOrder = 8
     end
@@ -39,18 +33,18 @@ inherited frmAccGroup: TfrmAccGroup
       TabOrder = 11
     end
     object cxDBTextEdit1: TcxDBTextEdit [14]
-      Left = 100
+      Left = 87
       Top = 41
-      DataBinding.DataField = 'accgroup'
+      DataBinding.DataField = 'currency_code'
       DataBinding.DataSource = dsStgBase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 6
-      Width = 251
+      Width = 266
     end
     object cxDBTextEdit2: TcxDBTextEdit [15]
-      Left = 100
+      Left = 87
       Top = 68
       DataBinding.DataField = 'description'
       DataBinding.DataSource = dsStgBase
@@ -58,15 +52,15 @@ inherited frmAccGroup: TfrmAccGroup
       Style.BorderStyle = ebs3D
       Style.HotTrack = False
       TabOrder = 7
-      Width = 251
+      Width = 266
     end
     object dxLayoutItem7: TdxLayoutItem
       Parent = LY10001
       AlignHorz = ahLeft
-      CaptionOptions.Text = 'Accounting Group'
+      CaptionOptions.Text = 'Currency Code'
       Control = cxDBTextEdit1
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 251
+      ControlOptions.OriginalWidth = 266
       ControlOptions.ShowBorder = False
       Index = 0
     end
@@ -76,17 +70,13 @@ inherited frmAccGroup: TfrmAccGroup
       CaptionOptions.Text = 'Description'
       Control = cxDBTextEdit2
       ControlOptions.OriginalHeight = 21
-      ControlOptions.OriginalWidth = 251
+      ControlOptions.OriginalWidth = 266
       ControlOptions.ShowBorder = False
       Index = 1
     end
   end
   inherited qrStgBase: TUniQuery
     SQL.Strings = (
-      'SELECT * FROM accgroup_tab')
-  end
-  inherited qrCMD: TUniQuery
-    Left = 368
-    Top = 280
+      'SELECT * FROM currency_tab')
   end
 end

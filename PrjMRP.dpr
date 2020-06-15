@@ -11,7 +11,13 @@ uses
   uProductCode in 'uProductCode.pas' {frmProductCode},
   uProductFamily in 'uProductFamily.pas' {frmProductFamily},
   uUOM in 'uUOM.pas' {frmUOM},
-  uWarehouse in 'uWarehouse.pas' {frmWarehouse};
+  uWarehouse in 'uWarehouse.pas' {frmWarehouse},
+  uLocation in 'uLocation.pas' {frmLocation},
+  uCurrency in 'uCurrency.pas' {frmCurrency},
+  uRateType in 'uRateType.pas' {frmRateType},
+  uRate in 'uRate.pas' {frmRate},
+  uBaseMstDtl in 'uBaseMstDtl.pas' {frmBaseMstDtl},
+  uItems in 'uItems.pas' {frmItems};
 
 {$R *.res}
 

@@ -15,6 +15,14 @@ type
     imgbutton: TcxImageList;
     qrSite: TUniQuery;
     dsSite: TUniDataSource;
+    qrWarehouse: TUniQuery;
+    dsWarehouse: TUniDataSource;
+    qrCurrency: TUniQuery;
+    dsCurrency: TUniDataSource;
+    qrRateType: TUniQuery;
+    dsRateType: TUniDataSource;
+    qrPartType: TUniQuery;
+    dsPartType: TUniDataSource;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -29,6 +37,10 @@ type
     function EncryptStr(const S :WideString; Key: Word): String;
     function DecryptStr(const S: String; Key: Word): String;
     procedure OpenSite;
+    procedure OpenWarehouse;
+    procedure OpenCurrency;overload;
+    procedure OpenCurrency(FRatetype :string);overload;
+    procedure OpenRatetype;
   end;
   const CKEY1 = 30812;
         CKEY2 = 14786;
@@ -94,12 +106,56 @@ begin
 
 end;
 
+procedure TdmMRP.OpenCurrency;
+begin
+  with qrCurrency do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT currency_code,description from currency_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenCurrency(FRatetype: string);
+begin
+  with qrCurrency do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT currency_code,description from currency_tab WHERE currency_code IN (SELECT currency_code FROM ratetype_tab WHERE ratetype=:f1)';
+    ParamByName('f1').AsString :=FRatetype;
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenRatetype;
+begin
+  with qrRateType do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT rate_type,description,currency_code FROM ratetype_tab';
+    Open;
+  end;
+end;
+
 procedure TdmMRP.OpenSite;
 begin
   with qrSite do
   begin
     Close;
     SQL.Text :='SELECT site,description FROM site_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenWarehouse;
+begin
+  with qrWarehouse do
+  begin
+    Close;
+    SQL.Text :='SELECT * FROM warehouse_tab';
     Open;
   end;
 end;
