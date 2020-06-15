@@ -8,4 +8,9 @@ IDE
   Delphi
 Database 
   MySQL 8
+  
+ Module : 
+ 1. MRP Gross 
+ 2. Warehouse Management System
+ 
 
