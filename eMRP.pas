@@ -61,6 +61,7 @@ type
     M1008: TdxBarButton;
     m1009: TdxBarButton;
     m1010: TdxBarButton;
+    m1011: TdxBarButton;
     procedure M2001Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure M1001Click(Sender: TObject);
@@ -74,6 +75,8 @@ type
     procedure M1008Click(Sender: TObject);
     procedure m1009Click(Sender: TObject);
     procedure M3001Click(Sender: TObject);
+    procedure M3005Click(Sender: TObject);
+    procedure m1011Click(Sender: TObject);
   private
     { Private declarations }
     procedure ShowForm(frmID :Integer);
@@ -93,7 +96,7 @@ implementation
 {$R *.dfm}
 
 uses dm, uSite, uAccGroup, uProductCode, uProductFamily, uUOM, uWarehouse,
-  uLocation, uCurrency, uRateType, uItems;
+  uLocation, uCurrency, uRateType, uItems, uSupplier, uPaymentTerm;
 
 procedure TfrmMrp.M0006Click(Sender: TObject);
 begin
@@ -146,6 +149,11 @@ begin
   ShowForm(m1009.Tag);
 end;
 
+procedure TfrmMrp.m1011Click(Sender: TObject);
+begin
+  ShowForm(m1011.Tag);
+end;
+
 procedure TfrmMrp.M2001Click(Sender: TObject);
 begin
   if dmMRP.dlgMySQL.Execute then
@@ -156,6 +164,11 @@ end;
 procedure TfrmMrp.M3001Click(Sender: TObject);
 begin
   ShowForm(M3001.Tag);
+end;
+
+procedure TfrmMrp.M3005Click(Sender: TObject);
+begin
+  ShowForm(M3005.Tag);
 end;
 
 procedure TfrmMrp.ShowForm(frmID: Integer);
@@ -193,7 +206,14 @@ begin
   3001 : begin
            Application.CreateForm(TfrmItems,frmItems);
          end;
+  3005 : begin
+     Application.CreateForm(TfrmSupplier,frmSupplier);
   end;
+  1011 : begin
+    Application.CreateForm(TfrmPaymentTerm,frmPaymentTerm);
+  end;
+  end;
+
 end;
 
 procedure TfrmMrp.FormShow(Sender: TObject);

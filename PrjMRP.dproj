@@ -150,6 +150,18 @@
             <Form>frmItems</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="uSupplier.pas">
+            <Form>frmSupplier</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uPaymentTerm.pas">
+            <Form>frmPaymentTerm</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="uPurchasePart.pas">
+            <Form>frmPurchasePart</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

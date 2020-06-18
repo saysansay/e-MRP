@@ -17,7 +17,10 @@ uses
   uRateType in 'uRateType.pas' {frmRateType},
   uRate in 'uRate.pas' {frmRate},
   uBaseMstDtl in 'uBaseMstDtl.pas' {frmBaseMstDtl},
-  uItems in 'uItems.pas' {frmItems};
+  uItems in 'uItems.pas' {frmItems},
+  uSupplier in 'uSupplier.pas' {frmSupplier},
+  uPaymentTerm in 'uPaymentTerm.pas' {frmPaymentTerm},
+  uPurchasePart in 'uPurchasePart.pas' {frmPurchasePart};
 
 {$R *.res}
 

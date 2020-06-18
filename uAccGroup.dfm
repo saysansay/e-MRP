@@ -6,10 +6,6 @@ inherited frmAccGroup: TfrmAccGroup
   PixelsPerInch = 96
   TextHeight = 13
   inherited DL100001: TdxLayoutControl
-    ExplicitLeft = 0
-    ExplicitTop = 0
-    ExplicitWidth = 682
-    ExplicitHeight = 380
     inherited btnNew: TcxButton
       TabOrder = 8
     end

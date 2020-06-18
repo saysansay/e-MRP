@@ -23,6 +23,12 @@ type
     dsRateType: TUniDataSource;
     qrPartType: TUniQuery;
     dsPartType: TUniDataSource;
+    qrPCode: TUniQuery;
+    dsPCode: TUniDataSource;
+    qrUom: TUniQuery;
+    dsUom: TUniDataSource;
+    qrPaymentTerm: TUniQuery;
+    dsPayment: TUniDataSource;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -41,6 +47,10 @@ type
     procedure OpenCurrency;overload;
     procedure OpenCurrency(FRatetype :string);overload;
     procedure OpenRatetype;
+    procedure OpenPartType;
+    procedure OpenProductCode;
+    procedure OpenUom;
+    procedure OpenTerm;
   end;
   const CKEY1 = 30812;
         CKEY2 = 14786;
@@ -129,6 +139,28 @@ begin
   end;
 end;
 
+procedure TdmMRP.OpenPartType;
+begin
+  with qrPartType do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT * FROM parttype_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenProductCode;
+begin
+  with qrPCode do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT * FROM productcode_tab';
+    Open;
+  end;
+end;
+
 procedure TdmMRP.OpenRatetype;
 begin
   with qrRateType do
@@ -146,6 +178,26 @@ begin
   begin
     Close;
     SQL.Text :='SELECT site,description FROM site_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenTerm;
+begin
+  with qrPaymentTerm do
+  begin
+    Close;
+    SQL.Text :='SELECT term_code,description from paymentterm_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenUom;
+begin
+  with qrUom do
+  begin
+    Close;
+    SQL.Text :='SELECT * FROM uom_tab';
     Open;
   end;
 end;

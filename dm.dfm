@@ -8,7 +8,6 @@ object dmMRP: TdmMRP
     Database = 'dbmrp'
     Username = 'root'
     Server = 'localhost'
-    Connected = True
     ConnectDialog = dlgMySQL
     LoginPrompt = False
     Left = 64
@@ -458,6 +457,8 @@ object dmMRP: TdmMRP
   end
   object qrPartType: TUniQuery
     Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT * FROM parttype_tab')
     Left = 512
     Top = 112
   end
@@ -465,5 +466,41 @@ object dmMRP: TdmMRP
     DataSet = qrPartType
     Left = 552
     Top = 112
+  end
+  object qrPCode: TUniQuery
+    Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT * FROM productcode_tab')
+    Left = 512
+    Top = 168
+  end
+  object dsPCode: TUniDataSource
+    DataSet = qrPCode
+    Left = 552
+    Top = 168
+  end
+  object qrUom: TUniQuery
+    Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT * FROM uom_tab')
+    Left = 512
+    Top = 224
+  end
+  object dsUom: TUniDataSource
+    DataSet = qrUom
+    Left = 552
+    Top = 224
+  end
+  object qrPaymentTerm: TUniQuery
+    Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT term_code,description from paymentterm_tab')
+    Left = 512
+    Top = 296
+  end
+  object dsPayment: TUniDataSource
+    DataSet = qrPaymentTerm
+    Left = 544
+    Top = 296
   end
 end
