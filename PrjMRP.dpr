@@ -20,7 +20,9 @@ uses
   uItems in 'uItems.pas' {frmItems},
   uSupplier in 'uSupplier.pas' {frmSupplier},
   uPaymentTerm in 'uPaymentTerm.pas' {frmPaymentTerm},
-  uPurchasePart in 'uPurchasePart.pas' {frmPurchasePart};
+  uPurchasePart in 'uPurchasePart.pas' {frmPurchasePart},
+  uTax in 'uTax.pas' {frmTaxCode},
+  uPR in 'uPR.pas' {frmPR};
 
 {$R *.res}
 

@@ -29,11 +29,23 @@ type
     dsUom: TUniDataSource;
     qrPaymentTerm: TUniQuery;
     dsPayment: TUniDataSource;
+    qrSupplier: TUniQuery;
+    dsSupplier: TUniDataSource;
+    qrPart: TUniQuery;
+    dsPart: TUniDataSource;
+    qrTax: TUniQuery;
+    dsTax: TUniDataSource;
+    qrSelect: TUniQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
-
-
+    FQtyFormat,FPriceFormat :string;
+    Procedure SetQtyFormat(Value :string);
+    function GetQtyFormat :string;
+    procedure SetPriceFormat(Value:string);
+    function GetPriceFormat:string;
+    function GetQtyFormatBySite(FSite:string):string;
+    function GetPriceFormatBySite(FSite:string):string;
   public
     { Public declarations }
     ServerName :string;
@@ -51,6 +63,13 @@ type
     procedure OpenProductCode;
     procedure OpenUom;
     procedure OpenTerm;
+    procedure OpenSupplier;
+    procedure OpenInvParts;
+    procedure OpenTax;
+
+    property QtyDisplayFormat :string read GetQtyFormat write SetQtyFormat;
+    property PriceDisplayFormat :string read GetPriceFormat write SetPriceFormat;
+
   end;
   const CKEY1 = 30812;
         CKEY2 = 14786;
@@ -70,6 +89,8 @@ uses eMRP;
 procedure TdmMRP.DataModuleCreate(Sender: TObject);
 begin
   ReadConn;
+  FQtyFormat :=GetQtyFormatBySite('2W');
+  FPriceFormat :=GetPriceFormatBySite('2W');
 end;
 
 function TdmMRP.DecryptStr(const S: String; Key: Word): String;
@@ -116,6 +137,45 @@ begin
 
 end;
 
+function TdmMRP.GetPriceFormat: string;
+begin
+  Result :=FPriceFormat;
+end;
+
+function TdmMRP.GetPriceFormatBySite(FSite: string): string;
+begin
+   with qrSelect do
+  begin
+    Close;
+    SQL.Text :='SELECT currency_format FROM site_tab WHERE site='+QuotedStr(FSite);
+    Open;
+  end;
+  if qrSelect.FieldByName('currency_format').AsString <>'' then
+     Result :=qrSelect.FieldByName('currency_format').AsString
+  else
+     Result :='0.###;(0.###)';
+end;
+
+function TdmMRP.GetQtyFormat: string;
+begin
+  Result :=FQtyFormat;
+end;
+
+function TdmMRP.GetQtyFormatBySite(FSite: string): string;
+begin
+  with qrSelect do
+  begin
+    Close;
+    SQL.Text :='SELECT qty_format FROM site_tab WHERE site='+QuotedStr(FSite);
+    Open;
+  end;
+  if qrSelect.FieldByName('qty_format').AsString <>'' then
+     Result :=qrSelect.FieldByName('qty_format').AsString
+  else
+     Result :='0.0000;(0.0000)';
+
+end;
+
 procedure TdmMRP.OpenCurrency;
 begin
   with qrCurrency do
@@ -135,6 +195,16 @@ begin
     SQL.Clear;
     SQL.Text :='SELECT currency_code,description from currency_tab WHERE currency_code IN (SELECT currency_code FROM ratetype_tab WHERE ratetype=:f1)';
     ParamByName('f1').AsString :=FRatetype;
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenInvParts;
+begin
+  with qrPart do
+  begin
+    Close;
+    SQL.Text :='SELECT partno,partname FROM inv_parts_tab';
     Open;
   end;
 end;
@@ -178,6 +248,26 @@ begin
   begin
     Close;
     SQL.Text :='SELECT site,description FROM site_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenSupplier;
+begin
+  with qrSupplier do
+  begin
+    Close;
+    SQL.Text :='SELECT supplier_code,supplier_name FROM supplier_tab';
+    Open;
+  end;
+end;
+
+procedure TdmMRP.OpenTax;
+begin
+  with qrTax do
+  begin
+    Close;
+    SQL.Text :='SELECT taxcode,description FROM tax_tab';
     Open;
   end;
 end;
@@ -253,6 +343,16 @@ begin
       lJsonObj.Free;
    end;
 
+end;
+
+procedure TdmMRP.SetPriceFormat(Value: string);
+begin
+  FPriceFormat :=Value;
+end;
+
+procedure TdmMRP.SetQtyFormat(Value: string);
+begin
+  FQtyFormat :=Value;
 end;
 
 end.

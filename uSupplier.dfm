@@ -1,36 +1,54 @@
 inherited frmSupplier: TfrmSupplier
   Caption = 'Supplier'
   OnShow = FormShow
+  ExplicitWidth = 698
+  ExplicitHeight = 419
   PixelsPerInch = 96
   TextHeight = 13
   inherited DL100001: TdxLayoutControl
     inherited btnNew: TcxButton
-      TabOrder = 18
+      Left = 580
+      TabOrder = 19
+      ExplicitLeft = 580
     end
     inherited btnEdit: TcxButton
-      TabOrder = 19
+      Left = 580
+      TabOrder = 20
+      ExplicitLeft = 580
     end
     inherited btnDelete: TcxButton
-      TabOrder = 22
+      Left = 580
+      TabOrder = 23
+      ExplicitLeft = 580
     end
     inherited btnDuplicate: TcxButton
-      TabOrder = 23
+      Left = 580
+      TabOrder = 24
       OnClick = btnDuplicateClick
+      ExplicitLeft = 580
     end
     inherited btnRefresh: TcxButton
-      TabOrder = 24
+      Left = 580
+      TabOrder = 25
       OnClick = btnRefreshClick
+      ExplicitLeft = 580
     end
     inherited btnFind: TcxButton
-      TabOrder = 25
+      Left = 580
+      TabOrder = 26
       OnClick = btnFindClick
+      ExplicitLeft = 580
     end
     inherited btnSave: TcxButton
-      TabOrder = 20
+      Left = 580
+      TabOrder = 21
       OnClick = btnSaveClick
+      ExplicitLeft = 580
     end
     inherited btnCancel: TcxButton
-      TabOrder = 21
+      Left = 580
+      TabOrder = 22
+      ExplicitLeft = 580
     end
     object cxDBTextEdit1: TcxDBTextEdit [14]
       Left = 97
@@ -89,19 +107,8 @@ inherited frmSupplier: TfrmSupplier
     end
     object cxDBTextEdit6: TcxDBTextEdit [19]
       Left = 97
-      Top = 176
-      DataBinding.DataField = 'phone'
-      DataBinding.DataSource = dsStgBase
-      Style.BorderColor = clWindowFrame
-      Style.BorderStyle = ebs3D
-      Style.HotTrack = False
-      TabOrder = 11
-      Width = 265
-    end
-    object cxDBTextEdit7: TcxDBTextEdit [20]
-      Left = 97
       Top = 203
-      DataBinding.DataField = 'fax'
+      DataBinding.DataField = 'phone'
       DataBinding.DataSource = dsStgBase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -109,10 +116,10 @@ inherited frmSupplier: TfrmSupplier
       TabOrder = 12
       Width = 265
     end
-    object cxDBTextEdit8: TcxDBTextEdit [21]
+    object cxDBTextEdit7: TcxDBTextEdit [20]
       Left = 97
       Top = 230
-      DataBinding.DataField = 'contact'
+      DataBinding.DataField = 'fax'
       DataBinding.DataSource = dsStgBase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -120,10 +127,10 @@ inherited frmSupplier: TfrmSupplier
       TabOrder = 13
       Width = 265
     end
-    object cxDBTextEdit9: TcxDBTextEdit [22]
+    object cxDBTextEdit8: TcxDBTextEdit [21]
       Left = 97
       Top = 257
-      DataBinding.DataField = 'contact_email'
+      DataBinding.DataField = 'contact'
       DataBinding.DataSource = dsStgBase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -131,10 +138,10 @@ inherited frmSupplier: TfrmSupplier
       TabOrder = 14
       Width = 265
     end
-    object cxDBTextEdit10: TcxDBTextEdit [23]
+    object cxDBTextEdit9: TcxDBTextEdit [22]
       Left = 97
       Top = 284
-      DataBinding.DataField = 'contact_phone'
+      DataBinding.DataField = 'contact_email'
       DataBinding.DataSource = dsStgBase
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -142,9 +149,20 @@ inherited frmSupplier: TfrmSupplier
       TabOrder = 15
       Width = 265
     end
-    object cxDBLookupComboBox1: TcxDBLookupComboBox [24]
+    object cxDBTextEdit10: TcxDBTextEdit [23]
       Left = 97
       Top = 311
+      DataBinding.DataField = 'contact_phone'
+      DataBinding.DataSource = dsStgBase
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 16
+      Width = 265
+    end
+    object cxDBLookupComboBox1: TcxDBLookupComboBox [24]
+      Left = 97
+      Top = 338
       DataBinding.DataField = 'invoice_currency'
       DataBinding.DataSource = dsStgBase
       Properties.DropDownAutoSize = True
@@ -162,12 +180,12 @@ inherited frmSupplier: TfrmSupplier
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 16
+      TabOrder = 17
       Width = 265
     end
     object cxDBLookupComboBox2: TcxDBLookupComboBox [25]
       Left = 97
-      Top = 338
+      Top = 365
       DataBinding.DataField = 'invoice_term'
       DataBinding.DataSource = dsStgBase
       Properties.KeyFieldNames = 'term_code'
@@ -182,7 +200,18 @@ inherited frmSupplier: TfrmSupplier
       Style.HotTrack = False
       Style.ButtonStyle = bts3D
       Style.PopupBorderStyle = epbsFrame3D
-      TabOrder = 17
+      TabOrder = 18
+      Width = 265
+    end
+    object cxDBTextEdit11: TcxDBTextEdit [26]
+      Left = 97
+      Top = 176
+      DataBinding.DataField = 'country'
+      DataBinding.DataSource = dsStgBase
+      Style.BorderColor = clWindowFrame
+      Style.BorderStyle = ebs3D
+      Style.HotTrack = False
+      TabOrder = 11
       Width = 265
     end
     inherited LY10001: TdxLayoutGroup
@@ -246,7 +275,7 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 5
+      Index = 6
     end
     object dxLayoutItem21: TdxLayoutItem
       Parent = LY10001
@@ -256,7 +285,7 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 6
+      Index = 7
     end
     object dxLayoutItem22: TdxLayoutItem
       Parent = LY10001
@@ -266,7 +295,7 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 7
+      Index = 8
     end
     object dxLayoutItem23: TdxLayoutItem
       Parent = LY10001
@@ -276,7 +305,7 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 8
+      Index = 9
     end
     object dxLayoutItem24: TdxLayoutItem
       Parent = LY10001
@@ -286,7 +315,7 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 9
+      Index = 10
     end
     object dxLayoutItem25: TdxLayoutItem
       Parent = LY10001
@@ -296,7 +325,7 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 10
+      Index = 11
     end
     object dxLayoutItem26: TdxLayoutItem
       Parent = LY10001
@@ -306,7 +335,17 @@ inherited frmSupplier: TfrmSupplier
       ControlOptions.OriginalHeight = 21
       ControlOptions.OriginalWidth = 265
       ControlOptions.ShowBorder = False
-      Index = 11
+      Index = 12
+    end
+    object dxLayoutItem27: TdxLayoutItem
+      Parent = LY10001
+      AlignHorz = ahLeft
+      CaptionOptions.Text = 'Country'
+      Control = cxDBTextEdit11
+      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalWidth = 265
+      ControlOptions.ShowBorder = False
+      Index = 5
     end
   end
   inherited qrStgBase: TUniQuery

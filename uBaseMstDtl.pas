@@ -11,7 +11,7 @@ uses
   cxDataStorage, cxEdit, cxNavigator,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, MemDS, DBAccess, Uni;
+  cxGridDBTableView, cxGrid, MemDS, DBAccess, Uni, QImport3Wizard;
 
 type
   TfrmBaseMstDtl = class(TForm)
@@ -23,12 +23,6 @@ type
     LY0001: TdxLayoutGroup;
     LY0002: TdxLayoutGroup;
     LY0003: TdxLayoutGroup;
-    btnDNew: TcxButton;
-    dxLayoutItem1: TdxLayoutItem;
-    btnDEdit: TcxButton;
-    dxLayoutItem2: TdxLayoutItem;
-    btnDdelete: TcxButton;
-    dxLayoutItem3: TdxLayoutItem;
     btnHNew: TdxBarButton;
     btnHEdit: TdxBarButton;
     btnHDelete: TdxBarButton;
@@ -43,21 +37,30 @@ type
     dsMST: TUniDataSource;
     qrDTL: TUniQuery;
     dsDTL: TUniDataSource;
-    cxButton1: TcxButton;
-    dxLayoutItem5: TdxLayoutItem;
     btnHReport: TdxBarSubItem;
     btnHPreview: TdxBarButton;
     btnHDesign: TdxBarButton;
-    btnImport: TcxButton;
-    dxLayoutItem6: TdxLayoutItem;
     btnHFind: TdxBarButton;
     qrCMD: TUniQuery;
+    Bar10001Bar1: TdxBar;
+    dxBarDockControl2: TdxBarDockControl;
+    dxLayoutItem2: TdxLayoutItem;
+    BtnDNew: TdxBarButton;
+    btnDEdit: TdxBarButton;
+    btnDDel: TdxBarButton;
+    btnDImport: TdxBarButton;
+    dtlImport: TQImport3Wizard;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dsMSTStateChange(Sender: TObject);
     procedure btnDNewClick(Sender: TObject);
     procedure btnDEditClick(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
     procedure btnDdeleteClick(Sender: TObject);
+    procedure btnHNewClick(Sender: TObject);
+    procedure btnHEditClick(Sender: TObject);
+    procedure btnHDeleteClick(Sender: TObject);
+    procedure btnHCancelClick(Sender: TObject);
+    procedure dsDTLStateChange(Sender: TObject);
   private
     { Private declarations }
     FParentID :string;
@@ -94,9 +97,9 @@ begin
     Open;
   end;
   if qrCMD.FieldByName('no').AsString = '' then
-     Result :=Prefix + Separator + Suffix + Separator + FormatFloat('000000',1)
+     Result :=Prefix + Separator + Suffix + Separator +FormatDateTime('mmyy',Now)+Separator+ FormatFloat('000000',1)
   else
-     Result :=Prefix + Separator + Suffix + Separator + FormatFloat('000000',qrCMD.FieldByName('no').AsInteger);
+     Result :=Prefix + Separator + Suffix + Separator + FormatDateTime('mmyy',Now)+Separator+FormatFloat('000000',qrCMD.FieldByName('no').AsInteger);
 
 end;
 
@@ -124,6 +127,27 @@ begin
      qrDTL.Insert;
 end;
 
+procedure TfrmBaseMstDtl.btnHCancelClick(Sender: TObject);
+begin
+  if qrMST.State in [dsInsert,dsEdit] then
+     qrMST.Cancel;
+end;
+
+procedure TfrmBaseMstDtl.btnHDeleteClick(Sender: TObject);
+begin
+  qrMST.Delete;
+end;
+
+procedure TfrmBaseMstDtl.btnHEditClick(Sender: TObject);
+begin
+  qrMST.Edit;
+end;
+
+procedure TfrmBaseMstDtl.btnHNewClick(Sender: TObject);
+begin
+  qrMST.Insert;
+end;
+
 procedure TfrmBaseMstDtl.CopyRow;
     var varCopyData: Variant;
     i: Integer;
@@ -148,6 +172,24 @@ end;
 procedure TfrmBaseMstDtl.cxButton1Click(Sender: TObject);
 begin
   CopyRow;
+end;
+
+procedure TfrmBaseMstDtl.dsDTLStateChange(Sender: TObject);
+begin
+   if qrDTL.State in [dsInsert,dsEdit] then
+  begin
+    BtnDNew.Enabled :=False;
+    btnDEdit.Enabled :=False;
+    btnDDel.Enabled :=False;
+    btnDImport.Enabled :=False;
+  end
+  else
+    begin
+      BtnDNew.Enabled :=True;
+      btnDEdit.Enabled :=True;
+      btnDDel.Enabled :=True;
+      btnDImport.Enabled :=True;
+    end;
 end;
 
 procedure TfrmBaseMstDtl.dsMSTStateChange(Sender: TObject);

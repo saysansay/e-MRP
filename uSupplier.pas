@@ -38,6 +38,8 @@ type
     dxLayoutItem25: TdxLayoutItem;
     cxDBLookupComboBox2: TcxDBLookupComboBox;
     dxLayoutItem26: TdxLayoutItem;
+    cxDBTextEdit11: TcxDBTextEdit;
+    dxLayoutItem27: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure btnDuplicateClick(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);

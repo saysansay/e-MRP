@@ -23,67 +23,34 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     Height = 311
     Align = alClient
     TabOrder = 0
-    ExplicitTop = 34
-    object btnDNew: TcxButton
-      Left = 420
-      Top = 46
-      Width = 75
-      Height = 25
-      Caption = 'New'
-      TabOrder = 1
-      OnClick = btnDNewClick
-    end
-    object btnDEdit: TcxButton
-      Left = 420
-      Top = 77
-      Width = 75
-      Height = 25
-      Caption = 'Edit'
-      TabOrder = 2
-      OnClick = btnDEditClick
-    end
-    object btnDdelete: TcxButton
-      Left = 420
-      Top = 108
-      Width = 75
-      Height = 25
-      Caption = 'Delete'
-      TabOrder = 3
-      OnClick = btnDdeleteClick
-    end
     object grDetail: TcxGrid
       Left = 10
-      Top = 46
-      Width = 404
-      Height = 255
-      TabOrder = 0
+      Top = 76
+      Width = 485
+      Height = 225
+      TabOrder = 1
       object grDetailDB: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
         DataController.Summary.DefaultGroupSummaryItems = <>
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
+        OptionsView.ColumnAutoWidth = True
+        OptionsView.GroupByBox = False
         OptionsView.Indicator = True
+        Styles.Header = frmMrp.stlMenu
+        Styles.InplaceEditFormItem = frmMrp.stlMenu
       end
       object grDetailLevel1: TcxGridLevel
         GridView = grDetailDB
       end
     end
-    object cxButton1: TcxButton
-      Left = 420
-      Top = 139
-      Width = 75
-      Height = 25
-      Caption = 'Duplicate'
-      TabOrder = 4
-      OnClick = cxButton1Click
-    end
-    object btnImport: TcxButton
-      Left = 420
-      Top = 170
-      Width = 75
-      Height = 25
-      Caption = 'Import'
-      TabOrder = 5
+    object dxBarDockControl2: TdxBarDockControl
+      Left = 10
+      Top = 46
+      Width = 485
+      Height = 24
+      Align = dalNone
+      BarManager = Bar10001
     end
     object dxLayoutControl1Group_Root: TdxLayoutGroup
       AlignHorz = ahClient
@@ -109,47 +76,16 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
-      ItemIndex = 1
+      ItemIndex = 2
       ShowBorder = False
       Index = 0
     end
     object LY0003: TdxLayoutGroup
-      Parent = dxLayoutAutoCreatedGroup1
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
       ButtonOptions.Buttons = <>
       ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem1: TdxLayoutItem
-      Parent = LY0003
-      CaptionOptions.Text = 'cxButton1'
-      CaptionOptions.Visible = False
-      Control = btnDNew
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutItem2: TdxLayoutItem
-      Parent = LY0003
-      CaptionOptions.Text = 'cxButton2'
-      CaptionOptions.Visible = False
-      Control = btnDEdit
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 1
-    end
-    object dxLayoutItem3: TdxLayoutItem
-      Parent = LY0003
-      CaptionOptions.Text = 'cxButton3'
-      CaptionOptions.Visible = False
-      Control = btnDdelete
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 2
+      Index = -1
     end
     object dxLayoutItem4: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup1
@@ -165,29 +101,17 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Parent = LY0002
       AlignHorz = ahClient
       AlignVert = avClient
-      LayoutDirection = ldHorizontal
-      Index = 1
+      Index = 2
       AutoCreated = True
     end
-    object dxLayoutItem5: TdxLayoutItem
-      Parent = LY0003
-      CaptionOptions.Text = 'cxButton1'
-      CaptionOptions.Visible = False
-      Control = cxButton1
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
+    object dxLayoutItem2: TdxLayoutItem
+      Parent = LY0002
+      Control = dxBarDockControl2
+      ControlOptions.AutoColor = True
+      ControlOptions.OriginalHeight = 24
+      ControlOptions.OriginalWidth = 100
       ControlOptions.ShowBorder = False
-      Index = 3
-    end
-    object dxLayoutItem6: TdxLayoutItem
-      Parent = LY0003
-      CaptionOptions.Text = 'cxButton2'
-      CaptionOptions.Visible = False
-      Control = btnImport
-      ControlOptions.OriginalHeight = 25
-      ControlOptions.OriginalWidth = 75
-      ControlOptions.ShowBorder = False
-      Index = 4
+      Index = 1
     end
   end
   object dxBarDockControl1: TdxBarDockControl
@@ -282,6 +206,48 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Visible = True
       WholeRow = True
     end
+    object Bar10001Bar1: TdxBar
+      AllowClose = False
+      AllowCustomizing = False
+      AllowQuickCustomizing = False
+      AllowReset = False
+      BorderStyle = bbsNone
+      Caption = 'Action'
+      CaptionButtons = <>
+      DockControl = dxBarDockControl2
+      DockedDockControl = dxBarDockControl2
+      DockedLeft = 0
+      DockedTop = 0
+      FloatLeft = 539
+      FloatTop = 8
+      FloatClientWidth = 0
+      FloatClientHeight = 0
+      ItemLinks = <
+        item
+          Visible = True
+          ItemName = 'BtnDNew'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnDEdit'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnDDel'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnDImport'
+        end>
+      OneOnRow = True
+      Row = 0
+      UseOwnFont = False
+      Visible = True
+      WholeRow = False
+    end
     object btnHNew: TdxBarButton
       Caption = 'New'
       Category = 0
@@ -289,6 +255,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Style = frmMrp.stlMenu
       Visible = ivAlways
       ImageIndex = 0
+      OnClick = btnHNewClick
     end
     object btnHEdit: TdxBarButton
       Caption = 'Edit'
@@ -297,6 +264,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Style = frmMrp.stlMenu
       Visible = ivAlways
       ImageIndex = 1
+      OnClick = btnHEditClick
     end
     object btnHDelete: TdxBarButton
       Caption = 'Delete'
@@ -305,6 +273,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Style = frmMrp.stlMenu
       Visible = ivAlways
       ImageIndex = 4
+      OnClick = btnHDeleteClick
     end
     object btnHSave: TdxBarButton
       Caption = 'Save'
@@ -321,9 +290,10 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Style = frmMrp.stlMenu
       Visible = ivAlways
       ImageIndex = 3
+      OnClick = btnHCancelClick
     end
     object btnHReport: TdxBarSubItem
-      Caption = 'Report'
+      Caption = 'Print'
       Category = 0
       Style = frmMrp.stlMenu
       Visible = ivAlways
@@ -363,6 +333,34 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Visible = ivAlways
       ImageIndex = 5
     end
+    object BtnDNew: TdxBarButton
+      Caption = 'New'
+      Category = 0
+      Hint = 'New'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+    end
+    object btnDEdit: TdxBarButton
+      Caption = 'Edit'
+      Category = 0
+      Hint = 'Edit'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+    end
+    object btnDDel: TdxBarButton
+      Caption = 'Delete'
+      Category = 0
+      Hint = 'Delete'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+    end
+    object btnDImport: TdxBarButton
+      Caption = 'Import'
+      Category = 0
+      Hint = 'Import'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+    end
   end
   object qrMST: TUniQuery
     Connection = dmMRP.dbMySQL
@@ -382,6 +380,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   end
   object dsDTL: TUniDataSource
     DataSet = qrDTL
+    OnStateChange = dsDTLStateChange
     Left = 336
     Top = 172
   end
@@ -389,5 +388,27 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     Connection = dmMRP.dbMySQL
     Left = 248
     Top = 176
+  end
+  object dtlImport: TQImport3Wizard
+    DataSet = qrDTL
+    Formats.DecimalSeparator = '.'
+    Formats.ThousandSeparator = ','
+    Formats.DateSeparator = '/'
+    Formats.TimeSeparator = ':'
+    Formats.BooleanTrue.Strings = (
+      'True')
+    Formats.BooleanFalse.Strings = (
+      'False')
+    Formats.NullValues.Strings = (
+      'Null')
+    Formats.ShortDateFormat = 'M/d/yyyy'
+    Formats.LongDateFormat = 'dddd, MMMM d, yyyy'
+    Formats.ShortTimeFormat = 'h:mm AMPM'
+    Formats.LongTimeFormat = 'h:mm:ss AMPM'
+    FieldFormats = <>
+    ErrorLogFileName = 'error.log'
+    AddType = qatInsert
+    Left = 376
+    Top = 124
   end
 end

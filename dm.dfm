@@ -8,6 +8,7 @@ object dmMRP: TdmMRP
     Database = 'dbmrp'
     Username = 'root'
     Server = 'localhost'
+    Connected = True
     ConnectDialog = dlgMySQL
     LoginPrompt = False
     Left = 64
@@ -502,5 +503,47 @@ object dmMRP: TdmMRP
     DataSet = qrPaymentTerm
     Left = 544
     Top = 296
+  end
+  object qrSupplier: TUniQuery
+    Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT supplier_code,supplier_name '
+      'FROM supplier_tab')
+    Left = 616
+    Top = 112
+  end
+  object dsSupplier: TUniDataSource
+    DataSet = qrSupplier
+    Left = 656
+    Top = 112
+  end
+  object qrPart: TUniQuery
+    Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT partno,partname FROM inv_parts_tab')
+    Left = 616
+    Top = 168
+  end
+  object dsPart: TUniDataSource
+    DataSet = qrPart
+    Left = 656
+    Top = 168
+  end
+  object qrTax: TUniQuery
+    Connection = dbMySQL
+    SQL.Strings = (
+      'SELECT taxcode,description FROM tax_tab')
+    Left = 616
+    Top = 224
+  end
+  object dsTax: TUniDataSource
+    DataSet = qrTax
+    Left = 656
+    Top = 224
+  end
+  object qrSelect: TUniQuery
+    Connection = dbMySQL
+    Left = 56
+    Top = 280
   end
 end

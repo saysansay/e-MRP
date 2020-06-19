@@ -23,6 +23,10 @@ type
     dxLayoutItem12: TdxLayoutItem;
     cxDBCheckBox3: TcxDBCheckBox;
     dxLayoutItem13: TdxLayoutItem;
+    cxDBTextEdit3: TcxDBTextEdit;
+    dxLayoutItem20: TdxLayoutItem;
+    cxDBTextEdit4: TcxDBTextEdit;
+    dxLayoutItem21: TdxLayoutItem;
     procedure FormShow(Sender: TObject);
     procedure btnDuplicateClick(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
