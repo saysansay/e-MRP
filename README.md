@@ -13,4 +13,7 @@ Database
  1. MRP Gross 
  2. Warehouse Management System
  
-
+Development VCL
+1. Devart Unidac
+2. DevExpress 
+3. Fast Report
