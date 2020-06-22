@@ -21,10 +21,6 @@ object frmBaseFind: TfrmBaseFind
     Height = 274
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 112
-    ExplicitTop = 80
-    ExplicitWidth = 300
-    ExplicitHeight = 250
     object btnOK: TcxButton
       Left = 355
       Top = 239
@@ -56,6 +52,7 @@ object frmBaseFind: TfrmBaseFind
         DataController.Summary.FooterSummaryItems = <>
         DataController.Summary.SummaryGroups = <>
         OptionsSelection.CellSelect = False
+        OptionsView.GroupByBox = False
         OptionsView.Indicator = True
       end
       object grFindLevel1: TcxGridLevel

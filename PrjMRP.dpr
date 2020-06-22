@@ -22,7 +22,9 @@ uses
   uPaymentTerm in 'uPaymentTerm.pas' {frmPaymentTerm},
   uPurchasePart in 'uPurchasePart.pas' {frmPurchasePart},
   uTax in 'uTax.pas' {frmTaxCode},
-  uPR in 'uPR.pas' {frmPR};
+  uPR in 'uPR.pas' {frmPR},
+  uRegister in 'uRegister.pas' {frmRegister},
+  uLogin in 'uLogin.pas' {frmLogin};
 
 {$R *.res}
 

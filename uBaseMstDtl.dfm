@@ -3,7 +3,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   Top = 0
   Caption = 'BaseMstDtl'
   ClientHeight = 339
-  ClientWidth = 505
+  ClientWidth = 653
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,23 +11,27 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIChild
+  KeyPreview = True
   OldCreateOrder = False
   Visible = True
   OnClose = FormClose
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 28
-    Width = 505
+    Width = 653
     Height = 311
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 505
     object grDetail: TcxGrid
       Left = 10
       Top = 76
-      Width = 485
+      Width = 633
       Height = 225
+      PopupMenu = PopDetail
       TabOrder = 1
       object grDetailDB: TcxGridDBTableView
         Navigator.Buttons.CustomButtons = <>
@@ -47,7 +51,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     object dxBarDockControl2: TdxBarDockControl
       Left = 10
       Top = 46
-      Width = 485
+      Width = 633
       Height = 24
       Align = dalNone
       BarManager = Bar10001
@@ -88,21 +92,14 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Index = -1
     end
     object dxLayoutItem4: TdxLayoutItem
-      Parent = dxLayoutAutoCreatedGroup1
+      Parent = LY0002
       AlignHorz = ahClient
       AlignVert = avClient
       Control = grDetail
       ControlOptions.OriginalHeight = 200
       ControlOptions.OriginalWidth = 250
       ControlOptions.ShowBorder = False
-      Index = 0
-    end
-    object dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
-      Parent = LY0002
-      AlignHorz = ahClient
-      AlignVert = avClient
       Index = 2
-      AutoCreated = True
     end
     object dxLayoutItem2: TdxLayoutItem
       Parent = LY0002
@@ -117,10 +114,12 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   object dxBarDockControl1: TdxBarDockControl
     Left = 0
     Top = 0
-    Width = 505
+    Width = 653
     Height = 28
     Align = dalTop
     BarManager = Bar10001
+    ExplicitWidth = 505
+    ExplicitHeight = 57
   end
   object Bar10001: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -192,6 +191,13 @@ object frmBaseMstDtl: TfrmBaseMstDtl
           UserDefine = [udPaintStyle]
           UserPaintStyle = psCaptionGlyph
           Visible = True
+          ItemName = 'btnHRefresh'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
           ItemName = 'btnHFind'
         end
         item
@@ -240,7 +246,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
         item
           BeginGroup = True
           Visible = True
-          ItemName = 'btnDImport'
+          ItemName = 'btnDCopy'
         end>
       OneOnRow = True
       Row = 0
@@ -339,6 +345,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Hint = 'New'
       Style = frmMrp.stlMenu
       Visible = ivAlways
+      ImageIndex = 0
     end
     object btnDEdit: TdxBarButton
       Caption = 'Edit'
@@ -346,6 +353,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Hint = 'Edit'
       Style = frmMrp.stlMenu
       Visible = ivAlways
+      ImageIndex = 1
     end
     object btnDDel: TdxBarButton
       Caption = 'Delete'
@@ -353,17 +361,47 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       Hint = 'Delete'
       Style = frmMrp.stlMenu
       Visible = ivAlways
+      ImageIndex = 3
+      OnClick = btnDDelClick
     end
-    object btnDImport: TdxBarButton
-      Caption = 'Import'
+    object btnDCopy: TdxBarButton
+      Caption = 'Duplicate Row'
       Category = 0
-      Hint = 'Import'
+      Hint = 'Duplicate Row'
       Style = frmMrp.stlMenu
       Visible = ivAlways
+      ImageIndex = 6
+      OnClick = btnDCopyClick
+    end
+    object btnDSave: TdxBarButton
+      Caption = 'Save'
+      Category = 0
+      Hint = 'Save'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+      ImageIndex = 2
+    end
+    object btnDCancel: TdxBarButton
+      Caption = 'Cancel'
+      Category = 0
+      Hint = 'Cancel'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+      ImageIndex = 3
+    end
+    object btnHRefresh: TdxBarButton
+      Caption = 'Refresh'
+      Category = 0
+      Hint = 'Refresh'
+      Style = frmMrp.stlMenu
+      Visible = ivAlways
+      ImageIndex = 7
     end
   end
   object qrMST: TUniQuery
     Connection = dmMRP.dbMySQL
+    Options.StrictUpdate = False
+    Options.AutoPrepare = True
     Left = 304
     Top = 124
   end
@@ -375,6 +413,8 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   end
   object qrDTL: TUniQuery
     Connection = dmMRP.dbMySQL
+    Options.StrictUpdate = False
+    Options.AutoPrepare = True
     Left = 304
     Top = 172
   end
@@ -410,5 +450,46 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     AddType = qatInsert
     Left = 376
     Top = 124
+  end
+  object PopDetail: TdxBarPopupMenu
+    BarManager = Bar10001
+    ItemLinks = <
+      item
+        Visible = True
+        ItemName = 'BtnDNew'
+      end
+      item
+        Visible = True
+        ItemName = 'btnDEdit'
+      end
+      item
+        Visible = True
+        ItemName = 'btnDDel'
+      end
+      item
+        Visible = True
+        ItemName = 'btnDCopy'
+      end
+      item
+        BeginGroup = True
+        Visible = True
+        ItemName = 'btnDSave'
+      end
+      item
+        Visible = True
+        ItemName = 'btnDCancel'
+      end>
+    UseOwnFont = False
+    Left = 128
+    Top = 172
+    PixelsPerInch = 96
+  end
+  object popupHeader: TdxRibbonPopupMenu
+    BarManager = Bar10001
+    ItemLinks = <>
+    UseOwnFont = False
+    Left = 232
+    Top = 132
+    PixelsPerInch = 96
   end
 end

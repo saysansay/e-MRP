@@ -7,7 +7,7 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, dxSkinsCore, dxSkinOffice2013White,
   cxClasses, dxBar, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, cxStyles, cxPC, dxBarBuiltInMenu,
-  dxTabbedMDI, Vcl.ImgList, cxImageList;
+  dxTabbedMDI, Vcl.ImgList, cxImageList, Data.DB, MemDS, DBAccess, Uni;
 
 type
   TfrmMrp = class(TForm)
@@ -66,6 +66,7 @@ type
     dxBarButton2: TdxBarButton;
     m5000: TdxBarSubItem;
     M5001: TdxBarButton;
+    M5002: TdxBarButton;
     procedure M2001Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure M1001Click(Sender: TObject);
@@ -84,11 +85,26 @@ type
     procedure M3002Click(Sender: TObject);
     procedure m1012Click(Sender: TObject);
     procedure M5001Click(Sender: TObject);
+    procedure M0003Click(Sender: TObject);
+    procedure M0002Click(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    FLogin :Boolean;
+    FSite,FUser  :string;
+    procedure setLogin(value :Boolean);
+    function  getLogin :Boolean;
+    procedure setSite(value:string);
+    function getSite:string;
+    procedure setUser(value:string);
+    function getUser :string;
     procedure ShowForm(frmID :Integer);
+
   public
     { Public declarations }
+    property IsLogin : boolean read getLogin write setLogin;
+    property Site : string read getSite write setSite;
+    property UserName : string read getUser write setUser;
   end;
  {Catatan Penamaan Menu
  : Setting : M100,M2001
@@ -104,7 +120,45 @@ implementation
 
 uses dm, uSite, uAccGroup, uProductCode, uProductFamily, uUOM, uWarehouse,
   uLocation, uCurrency, uRateType, uItems, uSupplier, uPaymentTerm,
-  uPurchasePart, uTax, uBaseMstDtl, uPR;
+  uPurchasePart, uTax, uBaseMstDtl, uPR, uRegister, uLogin;
+
+function TfrmMrp.getLogin: Boolean;
+begin
+  Result :=FLogin;
+end;
+
+function TfrmMrp.getSite: string;
+begin
+  Result :=FSite;
+end;
+
+function TfrmMrp.getUser: string;
+begin
+  Result :=FUser;
+end;
+
+procedure TfrmMrp.M0002Click(Sender: TObject);
+begin
+  if (IsLogin=False)and (M0002.Caption='Login') then
+  begin
+    Application.CreateForm(TfrmLogin,frmLogin);
+    frmLogin.ShowModal
+  end
+  else
+     if (IsLogin=True)and (M0002.Caption='Logout') then
+     begin
+       IsLogin :=False;
+       M0002.Caption:='Login';
+       Application.CreateForm(TfrmLogin,frmLogin);
+       frmLogin.ShowModal
+     end;
+end;
+
+procedure TfrmMrp.M0003Click(Sender: TObject);
+begin
+  Application.CreateForm(TfrmRegister,frmRegister);
+  frmRegister.ShowModal;
+end;
 
 procedure TfrmMrp.M0006Click(Sender: TObject);
 begin
@@ -191,58 +245,93 @@ end;
 
 procedure TfrmMrp.M5001Click(Sender: TObject);
 begin
-  Application.CreateForm(TfrmPR,frmPR);
+  ShowForm(M5001.Tag);
+end;
+
+procedure TfrmMrp.setLogin(value: Boolean);
+begin
+  FLogin :=value;
+  if FLogin=True then
+     M0002.Caption :='Logout';
+end;
+
+procedure TfrmMrp.setSite(value: string);
+begin
+  FSite :=value;
+  dxStsBar.Panels[3].Text :=FSite;
+end;
+
+procedure TfrmMrp.setUser(value: string);
+begin
+  FUser :=value;
 end;
 
 procedure TfrmMrp.ShowForm(frmID: Integer);
 begin
-  case frmID of
-   1001 : begin
-     Application.CreateForm(TfrmSite,frmSite);
-   end;
-   1002 : begin
-     Application.CreateForm(TfrmAccGroup,frmAccGroup);
-   end;
-   1003 : begin
-            Application.CreateForm(TfrmProductCode,frmProductCode);
-          end;
-   1004 : begin
-            Application.CreateForm(TfrmProductFamily,frmProductFamily);
-          end;
-   1005 : begin
-            Application.CreateForm(TfrmUOM,frmUOM);
-          end;
-   1006 : begin
-       Application.CreateForm(TfrmWarehouse,frmWarehouse);
-   end;
-   1007 : begin
-            Application.CreateForm(TfrmLocation,frmLocation);
-          end;
+  if IsLogin = False then
+  begin
+    MessageDlg('Please Login first!',mtInformation,[mbOK],0);
+    Abort;
+  end;
+  if IsLogin=true then
+  begin
+    case frmID of
+     1001 : begin
+       Application.CreateForm(TfrmSite,frmSite);
+     end;
+     1002 : begin
+       Application.CreateForm(TfrmAccGroup,frmAccGroup);
+     end;
+     1003 : begin
+              Application.CreateForm(TfrmProductCode,frmProductCode);
+            end;
+     1004 : begin
+              Application.CreateForm(TfrmProductFamily,frmProductFamily);
+            end;
+     1005 : begin
+              Application.CreateForm(TfrmUOM,frmUOM);
+            end;
+     1006 : begin
+         Application.CreateForm(TfrmWarehouse,frmWarehouse);
+     end;
+     1007 : begin
+              Application.CreateForm(TfrmLocation,frmLocation);
+            end;
 
-  1008 : begin
-         Application.CreateForm(TfrmCurrency,frmCurrency);
-         end;
-  1009 : begin
-       Application.CreateForm(TfrmRateType,frmRateType);
+    1008 : begin
+           Application.CreateForm(TfrmCurrency,frmCurrency);
+           end;
+    1009 : begin
+         Application.CreateForm(TfrmRateType,frmRateType);
+    end;
+
+    3001 : begin
+             Application.CreateForm(TfrmItems,frmItems);
+           end;
+    3005 : begin
+       Application.CreateForm(TfrmSupplier,frmSupplier);
+    end;
+    1011 : begin
+      Application.CreateForm(TfrmPaymentTerm,frmPaymentTerm);
+    end;
+    3002: begin
+      Application.CreateForm(TfrmPurchasePart,frmPurchasePart);
+    end;
+    1012 : begin
+      Application.CreateForm(TfrmTaxCode,frmTaxCode);
+    end;
+    5001 : begin
+       Application.CreateForm(TfrmPR,frmPR);
+    end;
+    end;
   end;
 
-  3001 : begin
-           Application.CreateForm(TfrmItems,frmItems);
-         end;
-  3005 : begin
-     Application.CreateForm(TfrmSupplier,frmSupplier);
-  end;
-  1011 : begin
-    Application.CreateForm(TfrmPaymentTerm,frmPaymentTerm);
-  end;
-  3002: begin
-    Application.CreateForm(TfrmPurchasePart,frmPurchasePart);
-  end;
-  1012 : begin
-    Application.CreateForm(TfrmTaxCode,frmTaxCode);
-  end;
-  end;
+end;
 
+procedure TfrmMrp.FormCreate(Sender: TObject);
+begin
+   IsLogin :=False;
+   WindowState :=wsMaximized;
 end;
 
 procedure TfrmMrp.FormShow(Sender: TObject);

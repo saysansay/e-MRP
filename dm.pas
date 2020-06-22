@@ -36,6 +36,7 @@ type
     qrTax: TUniQuery;
     dsTax: TUniDataSource;
     qrSelect: TUniQuery;
+    qrCmd: TUniQuery;
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }
@@ -46,6 +47,7 @@ type
     function GetPriceFormat:string;
     function GetQtyFormatBySite(FSite:string):string;
     function GetPriceFormatBySite(FSite:string):string;
+
   public
     { Public declarations }
     ServerName :string;
@@ -66,7 +68,8 @@ type
     procedure OpenSupplier;
     procedure OpenInvParts;
     procedure OpenTax;
-
+    function RegisterUser(FUserName,FPass,FCPass,FSite:string;FSalt:Integer):Boolean;
+    function Login(UserName,FPass:string):Boolean;
     property QtyDisplayFormat :string read GetQtyFormat write SetQtyFormat;
     property PriceDisplayFormat :string read GetPriceFormat write SetPriceFormat;
 
@@ -174,6 +177,21 @@ begin
   else
      Result :='0.0000;(0.0000)';
 
+end;
+
+function TdmMRP.Login(UserName, FPass: string): Boolean;
+begin
+  with qrCmd do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT password,salt from users_tab WHERE username='+QuotedStr(UserName)+' AND verified='+QuotedStr('Y') +' AND locked<>'+QuotedStr('Y');
+    Open;
+    if FPass =DecryptStr(qrCmd.FieldByName('password').AsString,qrCmd.FieldByName('salt').AsInteger) then
+       Result :=True
+    else
+       Result :=False;
+  end;
 end;
 
 procedure TdmMRP.OpenCurrency;
@@ -326,6 +344,41 @@ begin
    finally
       JsonValue.Free;
    end;
+end;
+
+function TdmMRP.RegisterUser(FUserName, FPass, FCPass,FSite: string;FSalt:Integer): Boolean;
+begin
+  with qrSelect do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='SELECT COUNT(*) ct FROM users_tab WHERE username='+QuotedStr(FUserName);
+    Open;
+  end;
+  if qrSelect.FieldByName('ct').AsInteger > 0 then
+     Result :=False
+  else
+    begin
+      try
+        with qrCmd do
+        begin
+          Close;
+          SQL.Text :='INSERT INTO users_tab(username,password,salt,site)VALUE(:usr,:pass,:salt,:site)';
+          ParamByName('usr').AsString:=FUserName;
+          ParamByName('pass').AsString :=EncryptStr(FPass,FSalt);
+          ParamByName('salt').AsInteger :=FSalt;
+          ParamByName('site').AsString :=FSite;
+          Execute;
+        end;
+        Result :=True;
+      except
+        on e:exception do
+        begin
+           e.Create(e.Message);
+           Result :=False;
+        end;
+      end;
+    end;
 end;
 
 procedure TdmMRP.SaveConn;

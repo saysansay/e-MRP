@@ -80,6 +80,7 @@ type
     procedure btnRefreshClick(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
     procedure dsStgBaseDataChange(Sender: TObject; Field: TField);
+    procedure qrStgBaseBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -93,7 +94,7 @@ implementation
 
 {$R *.dfm}
 
-uses dm, fBaseFind;
+uses dm, fBaseFind, eMRP;
 
 procedure TfrmItems.btnDuplicateClick(Sender: TObject);
 begin
@@ -155,6 +156,13 @@ begin
    dmMRP.OpenProductCode;
    dmMRP.OpenUom;
    cxPageControl1.ActivePageIndex :=0;
+end;
+
+procedure TfrmItems.qrStgBaseBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  if qrStgBase.State in [dsInsert,dsEdit] then
+     qrStgBase.FieldByName('site').AsString :=frmMrp.Site;
 end;
 
 end.

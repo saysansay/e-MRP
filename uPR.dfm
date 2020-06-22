@@ -11,6 +11,8 @@ inherited frmPR: TfrmPR
   inherited dxLayoutControl1: TdxLayoutControl
     Width = 774
     Height = 407
+    ExplicitWidth = 774
+    ExplicitHeight = 407
     inherited grDetail: TcxGrid
       Top = 151
       Width = 754
@@ -165,15 +167,6 @@ inherited frmPR: TfrmPR
       ItemIndex = 1
       LayoutDirection = ldHorizontal
     end
-    inherited dxLayoutItem4: TdxLayoutItem
-      Parent = LY0002
-      Index = 2
-    end
-    inherited dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup
-      Parent = nil
-      Index = -1
-      Special = True
-    end
     object dxLayoutItem1: TdxLayoutItem
       Parent = dxLayoutAutoCreatedGroup4
       AlignHorz = ahLeft
@@ -254,9 +247,67 @@ inherited frmPR: TfrmPR
   end
   inherited dxBarDockControl1: TdxBarDockControl
     Width = 774
+    ExplicitWidth = 774
+    ExplicitHeight = 28
   end
   inherited Bar10001: TdxBarManager
     PixelsPerInch = 96
+    inherited dxBarManager1Bar1: TdxBar
+      ItemLinks = <
+        item
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHNew'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHEdit'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHDelete'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHSave'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHCancel'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHRefresh'
+        end
+        item
+          BeginGroup = True
+          UserDefine = [udPaintStyle]
+          UserPaintStyle = psCaptionGlyph
+          Visible = True
+          ItemName = 'btnHFind'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'btnHReport'
+        end>
+    end
     inherited btnHSave: TdxBarButton
       OnClick = btnHSaveClick
     end
@@ -266,17 +317,28 @@ inherited frmPR: TfrmPR
     inherited btnDEdit: TdxBarButton
       OnClick = btnDEditClick
     end
+    inherited btnDSave: TdxBarButton
+      OnClick = btnDSaveClick
+    end
+    inherited btnDCancel: TdxBarButton
+      OnClick = btnDCancelClick
+    end
+    inherited btnHRefresh: TdxBarButton
+      OnClick = btnHRefreshClick
+    end
   end
   inherited qrMST: TUniQuery
     SQL.Strings = (
       'SELECT * FROM pr_head_tab')
+    Options.LocalMasterDetail = True
     BeforePost = qrMSTBeforePost
+    BeforeDelete = qrMSTBeforeDelete
     Left = 264
     Top = 148
   end
   inherited dsMST: TUniDataSource
-    Left = 384
-    Top = 156
+    Left = 304
+    Top = 148
   end
   inherited qrDTL: TUniQuery
     SQL.Strings = (
@@ -284,14 +346,9 @@ inherited frmPR: TfrmPR
     MasterSource = dsMST
     MasterFields = 'prno'
     DetailFields = 'prno'
+    Options.LocalMasterDetail = True
     BeforePost = qrDTLBeforePost
     AfterPost = qrDTLAfterPost
-    ParamData = <
-      item
-        DataType = ftUnknown
-        Name = 'prno'
-        Value = nil
-      end>
   end
   inherited qrCMD: TUniQuery
     Left = 264
@@ -302,5 +359,11 @@ inherited frmPR: TfrmPR
     Formats.LongDateFormat = 'dddd, MMMM d, yyyy'
     Formats.ShortTimeFormat = 'h:mm AMPM'
     Formats.LongTimeFormat = 'h:mm:ss AMPM'
+  end
+  inherited PopDetail: TdxBarPopupMenu
+    PixelsPerInch = 96
+  end
+  inherited popupHeader: TdxRibbonPopupMenu
+    PixelsPerInch = 96
   end
 end

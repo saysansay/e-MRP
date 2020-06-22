@@ -11,7 +11,8 @@ uses
   cxDataStorage, cxEdit, cxNavigator,
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
-  cxGridDBTableView, cxGrid, MemDS, DBAccess, Uni, QImport3Wizard;
+  cxGridDBTableView, cxGrid, MemDS, DBAccess, Uni, QImport3Wizard, cxLabel,
+  cxBarEditItem, dxRibbon;
 
 type
   TfrmBaseMstDtl = class(TForm)
@@ -32,7 +33,6 @@ type
     grDetailLevel1: TcxGridLevel;
     grDetail: TcxGrid;
     dxLayoutItem4: TdxLayoutItem;
-    dxLayoutAutoCreatedGroup1: TdxLayoutAutoCreatedGroup;
     qrMST: TUniQuery;
     dsMST: TUniDataSource;
     qrDTL: TUniQuery;
@@ -48,34 +48,58 @@ type
     BtnDNew: TdxBarButton;
     btnDEdit: TdxBarButton;
     btnDDel: TdxBarButton;
-    btnDImport: TdxBarButton;
+    btnDCopy: TdxBarButton;
     dtlImport: TQImport3Wizard;
+    PopDetail: TdxBarPopupMenu;
+    btnDSave: TdxBarButton;
+    btnDCancel: TdxBarButton;
+    popupHeader: TdxRibbonPopupMenu;
+    btnHRefresh: TdxBarButton;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dsMSTStateChange(Sender: TObject);
     procedure btnDNewClick(Sender: TObject);
     procedure btnDEditClick(Sender: TObject);
     procedure cxButton1Click(Sender: TObject);
-    procedure btnDdeleteClick(Sender: TObject);
     procedure btnHNewClick(Sender: TObject);
     procedure btnHEditClick(Sender: TObject);
     procedure btnHDeleteClick(Sender: TObject);
     procedure btnHCancelClick(Sender: TObject);
     procedure dsDTLStateChange(Sender: TObject);
+    procedure btnDCopyClick(Sender: TObject);
+    procedure btnDDelClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
     FParentID :string;
-
+    FParentNo :string;
+    FField    :string;
+    FTable   :string;
+    FStatus :string;
+    procedure SetStatus(value: string);
+    function GetStatus :string;
     procedure SetParent(value :string);
     function GetParent : string;
+    procedure SetParentNo(value : string);
+    function  GetParentNo :string;
+    procedure SetField(Value : string);
+    function GetField:string;
+    procedure setTable(value:string);
+    function getTable:string;
     procedure CopyRow;
   protected
      procedure OpenMST(sSQL :string);
      procedure OpenDTL(sSQL :string);
      function ParentNotEmpty(FParentID:string):Boolean;
      function AutoNumber(Prefix,Separator,Suffix,FTableName :string):string;
+     procedure AssingStatus;
+     procedure DeleteDetail(ParentNo,FTable,FField :string);
   public
     { Public declarations }
     property ParentID :string read GetParent write SetParent;
+    property Status :string read GetStatus write SetStatus;
+    property ParentNo :string read GetParentNo write SetParentNo;
+    property FieldDetail :string read GetField write SetField;
+    property TableDetail :string read getTable write setTable;
   end;
 
 var
@@ -86,6 +110,15 @@ implementation
 {$R *.dfm}
 
 uses dm, eMRP;
+
+procedure TfrmBaseMstDtl.AssingStatus;
+begin
+   if not qrMST.IsEmpty then
+  begin
+     Status :=qrMST.FieldByName('flag').AsString;
+     //m9001.Caption :=Status;
+  end;
+end;
 
 function TfrmBaseMstDtl.AutoNumber(Prefix, Separator, Suffix,
   FTableName: string): string;
@@ -103,9 +136,14 @@ begin
 
 end;
 
-procedure TfrmBaseMstDtl.btnDdeleteClick(Sender: TObject);
+procedure TfrmBaseMstDtl.btnDCopyClick(Sender: TObject);
 begin
-  if not qrDTL.IsEmpty then
+  CopyRow;
+end;
+
+procedure TfrmBaseMstDtl.btnDDelClick(Sender: TObject);
+begin
+   if not qrDTL.IsEmpty then
   begin
     if MessageDlg('Delete this record ?',mtConfirmation,[mbYes,mbNo],0)=mrYes then
        qrDTL.Delete;
@@ -129,13 +167,24 @@ end;
 
 procedure TfrmBaseMstDtl.btnHCancelClick(Sender: TObject);
 begin
+  
   if qrMST.State in [dsInsert,dsEdit] then
      qrMST.Cancel;
 end;
 
 procedure TfrmBaseMstDtl.btnHDeleteClick(Sender: TObject);
 begin
-  qrMST.Delete;
+    if Status ='OPEN' then
+    begin
+      if MessageDlg('delete this transaction ?',mtConfirmation,[mbYes,mbNo],0)=mrYes then
+      begin
+        qrMST.Delete;
+        DeleteDetail(ParentNo,TableDetail,FieldDetail);
+      end;
+    end
+    else
+       MessageDlg('this transaction cannot be deleted?',mtConfirmation,[mbOK],0);
+
 end;
 
 procedure TfrmBaseMstDtl.btnHEditClick(Sender: TObject);
@@ -174,22 +223,41 @@ begin
   CopyRow;
 end;
 
+procedure TfrmBaseMstDtl.DeleteDetail(ParentNo,FTable,FField: string);
+begin
+  with qrCMD do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Text :='DELETE FROM '+FTable +' WHERE '+FField +' ='+QuotedStr(ParentNo);
+    Execute;
+  end;
+end;
+
 procedure TfrmBaseMstDtl.dsDTLStateChange(Sender: TObject);
 begin
-   if qrDTL.State in [dsInsert,dsEdit] then
+  if qrDTL.State in [dsInsert,dsEdit] then
   begin
     BtnDNew.Enabled :=False;
     btnDEdit.Enabled :=False;
     btnDDel.Enabled :=False;
-    btnDImport.Enabled :=False;
+    btnDCopy.Enabled :=False;
   end
   else
     begin
       BtnDNew.Enabled :=True;
       btnDEdit.Enabled :=True;
       btnDDel.Enabled :=True;
-      btnDImport.Enabled :=True;
+      btnDCopy.Enabled :=True;
     end;
+    if qrDTL.IsEmpty then 
+    begin
+      BtnDNew.Enabled :=True;
+      btnDEdit.Enabled :=False;
+      btnDDel.Enabled :=False;
+      btnDCopy.Enabled :=False;
+    end;
+
 end;
 
 procedure TfrmBaseMstDtl.dsMSTStateChange(Sender: TObject);
@@ -214,6 +282,17 @@ begin
       btnHFind.Enabled :=True;
       btnHReport.Enabled :=True;
     end;
+    if qrMST.IsEmpty then
+    begin
+      btnHNew.Enabled :=True;
+      btnHEdit.Enabled :=False;
+      btnHDelete.Enabled :=False;
+      btnHSave.Enabled :=False;
+      btnHCancel.Enabled :=False;
+      btnHFind.Enabled :=False;
+      btnHReport.Enabled :=False;
+    end;
+    
 end;
 
 procedure TfrmBaseMstDtl.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -222,9 +301,36 @@ begin
   frmBaseMstDtl :=nil;
 end;
 
+procedure TfrmBaseMstDtl.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key=VK_RETURN then
+     SelectNext(ActiveControl,True,True);
+end;
+
+function TfrmBaseMstDtl.GetField: string;
+begin
+  Result :=FField;
+end;
+
 function TfrmBaseMstDtl.GetParent: string;
 begin
   Result :=FParentID;
+end;
+
+function TfrmBaseMstDtl.GetParentNo: string;
+begin
+  Result :=FParentNo;
+end;
+
+function TfrmBaseMstDtl.GetStatus: string;
+begin
+  Result :=FStatus;
+end;
+
+function TfrmBaseMstDtl.getTable: string;
+begin
+  Result :=FTable;
 end;
 
 procedure TfrmBaseMstDtl.OpenDTL(sSQL: string);
@@ -257,9 +363,29 @@ begin
      Result :=False;
 end;
 
+procedure TfrmBaseMstDtl.SetField(Value: string);
+begin
+  FField :=value;
+end;
+
 procedure TfrmBaseMstDtl.SetParent(value: string);
 begin
   FParentID :=value;
+end;
+
+procedure TfrmBaseMstDtl.SetParentNo(value: string);
+begin
+  FParentNo :=value;
+end;
+
+procedure TfrmBaseMstDtl.SetStatus(value: string);
+begin
+  FStatus :=value;
+end;
+
+procedure TfrmBaseMstDtl.setTable(value: string);
+begin
+  FTable :=value;
 end;
 
 end.

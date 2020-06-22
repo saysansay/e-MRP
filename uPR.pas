@@ -12,7 +12,7 @@ uses
   cxGridCustomView, cxGridCustomTableView, cxGridTableView, cxGridDBTableView,
   cxGrid, dxLayoutControl, dxLayoutcxEditAdapters, cxContainer, cxMaskEdit,
   cxDropDownEdit, cxCalendar, cxDBEdit, cxTextEdit, QImport3Wizard, cxButtonEdit,
-  cxSpinEdit, cxCurrencyEdit;
+  cxSpinEdit, cxCurrencyEdit, cxLabel, cxBarEditItem, dxRibbon;
 
 type
   TfrmPR = class(TfrmBaseMstDtl)
@@ -51,6 +51,11 @@ type
     procedure qrDTLBeforePost(DataSet: TDataSet);
     procedure qrDTLAfterPost(DataSet: TDataSet);
     procedure FormCreate(Sender: TObject);
+    procedure btnDSaveClick(Sender: TObject);
+    procedure btnDCancelClick(Sender: TObject);
+    procedure btnHDeleteClick(Sender: TObject);
+    procedure qrMSTBeforeDelete(DataSet: TDataSet);
+    procedure btnHRefreshClick(Sender: TObject);
   private
     { Private declarations }
     function GrossAmount(FPRNo :string):Double;
@@ -67,6 +72,13 @@ implementation
 
 uses fBaseFind, dm;
 
+procedure TfrmPR.btnDCancelClick(Sender: TObject);
+begin
+  inherited;
+   if qrDTL.State in [dsInsert,dsEdit] then
+      qrDTL.Cancel;
+end;
+
 procedure TfrmPR.btnDEditClick(Sender: TObject);
 begin
   inherited;
@@ -77,6 +89,27 @@ procedure TfrmPR.BtnDNewClick(Sender: TObject);
 begin
   inherited;
   //qrDTL.Insert;
+end;
+
+procedure TfrmPR.btnDSaveClick(Sender: TObject);
+begin
+  inherited;
+  if qrDTL.State in [dsInsert,dsEdit] then
+     qrDTL.Post;
+end;
+
+procedure TfrmPR.btnHDeleteClick(Sender: TObject);
+begin
+  inherited;
+//  ShowMessage(ParentNo +' '+ TableDetail +' '+FieldDetail);
+end;
+
+procedure TfrmPR.btnHRefreshClick(Sender: TObject);
+begin
+  inherited;
+  OpenMST('SELECT * FROM pr_head_tab ORDER BY created DESC LIMIT 100');
+  OpenDTL('SELECT * FROM pr_detail_tab');
+  AssingStatus;
 end;
 
 procedure TfrmPR.btnHSaveClick(Sender: TObject);
@@ -95,6 +128,8 @@ begin
   grDetailDBamount.PropertiesClass :=TcxCurrencyEditProperties;
   TcxCurrencyEditProperties(grDetailDBamount.Properties).DisplayFormat :=dmMRP.PriceDisplayFormat;
   cxDBCurrencyEdit1.Properties.DisplayFormat :=dmMRP.PriceDisplayFormat;
+  TableDetail :='pr_detail_tab';
+  FieldDetail :='prno';
 end;
 
 procedure TfrmPR.FormShow(Sender: TObject);
@@ -102,6 +137,7 @@ begin
   inherited;
   OpenMST('SELECT * FROM pr_head_tab ORDER BY created DESC LIMIT 100');
   OpenDTL('SELECT * FROM pr_detail_tab');
+  AssingStatus;
 end;
 
 procedure TfrmPR.grDetailDBCellDblClick(Sender: TcxCustomGridTableView;
@@ -162,6 +198,13 @@ begin
   inherited;
   if qrDTL.State in [dsInsert,dsEdit] then
      qrDTL.FieldByName('amount').AsFloat :=qrDTL.FieldByName('pr_qty').AsFloat*qrDTL.FieldByName('price').AsFloat;
+end;
+
+procedure TfrmPR.qrMSTBeforeDelete(DataSet: TDataSet);
+begin
+  inherited;
+   if not qrMST.IsEmpty then
+    ParentNo :=qrMST.FieldByName('prno').AsString;
 end;
 
 procedure TfrmPR.qrMSTBeforePost(DataSet: TDataSet);

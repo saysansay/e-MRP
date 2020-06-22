@@ -12,6 +12,7 @@ object frmMrp: TfrmMrp
   Font.Style = []
   FormStyle = fsMDIForm
   OldCreateOrder = False
+  OnCreate = FormCreate
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
@@ -24,6 +25,13 @@ object frmMrp: TfrmMrp
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
         Text = 'Server'
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+      end
+      item
+        PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
+        Text = 'Site'
       end
       item
         PanelStyleClassName = 'TdxStatusBarTextPanelStyle'
@@ -353,6 +361,7 @@ object frmMrp: TfrmMrp
       Hint = 'Items Parts'
       Style = stlMenu
       Visible = ivAlways
+      OnClick = M3001Click
       AutoGrayScale = False
       LargeImageIndex = 0
       SyncImageIndex = False
@@ -392,6 +401,7 @@ object frmMrp: TfrmMrp
       Hint = 'Purchase Parts'
       Style = stlMenu
       Visible = ivAlways
+      OnClick = M3002Click
       AutoGrayScale = False
       LargeImageIndex = 1
     end
@@ -545,6 +555,7 @@ object frmMrp: TfrmMrp
       Style = stlMenu
       Visible = ivAlways
       ImageIndex = 8
+      OnClick = M0002Click
     end
     object M0006: TdxBarButton
       Caption = 'Exit'
@@ -562,6 +573,7 @@ object frmMrp: TfrmMrp
       Style = stlMenu
       Visible = ivAlways
       ImageIndex = 10
+      OnClick = M0003Click
     end
     object M0004: TdxBarButton
       Caption = 'Report Bug'
@@ -651,9 +663,15 @@ object frmMrp: TfrmMrp
         item
           Visible = True
           ItemName = 'M5001'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'M5002'
         end>
     end
     object M5001: TdxBarButton
+      Tag = 5001
       Caption = 'Purchase Requisition'
       Category = 0
       Hint = 'Purchase Requisition'
@@ -661,6 +679,13 @@ object frmMrp: TfrmMrp
       Visible = ivAlways
       ImageIndex = 3
       OnClick = M5001Click
+    end
+    object M5002: TdxBarButton
+      Caption = 'Purchase Order'
+      Category = 0
+      Hint = 'Purchase Order'
+      Visible = ivAlways
+      ImageIndex = 3
     end
   end
   object cxStyle: TcxStyleRepository

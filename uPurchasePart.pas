@@ -42,6 +42,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
     procedure cxDBCheckBox1PropertiesChange(Sender: TObject);
+    procedure qrStgBaseBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -55,7 +56,7 @@ implementation
 
 {$R *.dfm}
 
-uses dm, fBaseFind;
+uses dm, fBaseFind, eMRP;
 
 procedure TfrmPurchasePart.btnDuplicateClick(Sender: TObject);
 begin
@@ -121,6 +122,13 @@ begin
   dmMRP.OpenSupplier;
   dmMRP.OpenInvParts;
   dmMRP.OpenTax;
+end;
+
+procedure TfrmPurchasePart.qrStgBaseBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+   if qrStgBase.State in [dsInsert,dsEdit] then
+     qrStgBase.FieldByName('site').AsString :=frmMrp.Site;
 end;
 
 end.

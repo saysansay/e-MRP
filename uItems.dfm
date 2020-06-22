@@ -1,8 +1,6 @@
 inherited frmItems: TfrmItems
   Caption = 'Items Parts'
   OnShow = FormShow
-  ExplicitWidth = 698
-  ExplicitHeight = 419
   PixelsPerInch = 96
   TextHeight = 13
   inherited DL100001: TdxLayoutControl
@@ -671,5 +669,6 @@ inherited frmItems: TfrmItems
   inherited qrStgBase: TUniQuery
     SQL.Strings = (
       'SELECT * FROM inv_parts_tab')
+    BeforePost = qrStgBaseBeforePost
   end
 end

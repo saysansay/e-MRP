@@ -1,8 +1,6 @@
 inherited frmPurchasePart: TfrmPurchasePart
   Caption = 'Purchase Part/Expanse'
   OnShow = FormShow
-  ExplicitWidth = 698
-  ExplicitHeight = 419
   PixelsPerInch = 96
   TextHeight = 13
   inherited DL100001: TdxLayoutControl
@@ -335,5 +333,6 @@ inherited frmPurchasePart: TfrmPurchasePart
   inherited qrStgBase: TUniQuery
     SQL.Strings = (
       'SELECT * FROM purchasepart_tab')
+    BeforePost = qrStgBaseBeforePost
   end
 end

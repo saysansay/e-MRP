@@ -195,6 +195,17 @@ begin
       btnRefresh.Enabled :=True;
       btnFind.Enabled :=True;
     end;
+  if qrStgBase.IsEmpty  then
+  begin
+    btnNew.Enabled :=True;
+    btnEdit.Enabled :=False;
+    btnSave.Enabled :=False;
+    btnCancel.Enabled :=False;
+    btnDelete.Enabled :=False;
+    btnDuplicate.Enabled :=False;
+    btnRefresh.Enabled :=False;
+    btnFind.Enabled :=False;
+  end;
 end;
 
 procedure TfrmStgBase.ExecSQL(sSQL, sWHERE: string);
