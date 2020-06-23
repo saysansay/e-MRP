@@ -665,9 +665,13 @@ object frmMrp: TfrmMrp
           ItemName = 'M5001'
         end
         item
-          BeginGroup = True
           Visible = True
           ItemName = 'M5002'
+        end
+        item
+          BeginGroup = True
+          Visible = True
+          ItemName = 'M5003'
         end>
     end
     object M5001: TdxBarButton
@@ -680,10 +684,18 @@ object frmMrp: TfrmMrp
       ImageIndex = 3
       OnClick = M5001Click
     end
-    object M5002: TdxBarButton
+    object M5003: TdxBarButton
       Caption = 'Purchase Order'
       Category = 0
       Hint = 'Purchase Order'
+      Visible = ivAlways
+      ImageIndex = 3
+    end
+    object M5002: TdxBarButton
+      Caption = 'Convert PR to PO'
+      Category = 0
+      Hint = 'Convert PR to PO'
+      Style = stlMenu
       Visible = ivAlways
       ImageIndex = 3
     end
@@ -699,6 +711,16 @@ object frmMrp: TfrmMrp
       Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = []
+    end
+    object Header: TcxStyle
+      AssignedValues = [svColor, svFont, svTextColor]
+      Color = 8404992
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      TextColor = clWhite
     end
   end
   object MDI: TdxTabbedMDIManager

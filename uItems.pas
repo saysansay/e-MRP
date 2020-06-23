@@ -106,17 +106,17 @@ procedure TfrmItems.btnFindClick(Sender: TObject);
 begin
   inherited;
    Application.CreateForm(TfrmBaseFind,frmBaseFind);
-  frmBaseFind.ShowSQL('SELECT PARTNO,PARTNAME FROM inv_parts_tab');
-  frmBaseFind.sSQLFind :='SELECT PARTNO,PARTNAME FROM inv_parts_tab WHERE partno LIKE :f1 OR Partname LIKE :f1';
+  frmBaseFind.ShowSQL('SELECT PARTNO,PARTNAME FROM inv_parts_tab WHERE site='+QuotedStr(frmMrp.Site));
+  frmBaseFind.sSQLFind :='SELECT PARTNO,PARTNAME FROM inv_parts_tab WHERE partno LIKE :f1 OR Partname LIKE :f1 AND site='+QuotedStr(frmMrp.Site);
   if frmBaseFind.ShowModal=mrOk then
-     OpenSQL('SELECT * FROM inv_parts_tab WHERE partno LIKE'+QuotedStr(frmBaseFind.ReturnValue));
+     OpenSQL('SELECT * FROM inv_parts_tab WHERE partno LIKE'+QuotedStr(frmBaseFind.ReturnValue)+' AND site='+QuotedStr(frmMrp.Site));
 
 end;
 
 procedure TfrmItems.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  OpenSQL('SELECT * FROM inv_parts_tab LIMIT 100');
+   OpenSQL('SELECT * FROM inv_parts_tab WHERE site='+QuotedStr(frmMrp.Site)+' LIMIT 100');
    dmMRP.OpenPartType;
    dmMRP.OpenProductCode;
    dmMRP.OpenUom;
@@ -127,7 +127,7 @@ begin
   inherited;
    if qrStgBase.State = dsInsert then
   begin
-    if RowExist('SELECT COUNT(*)ct FROM inv_parts_tab WHERE partno='+QuotedStr(qrStgBase.FieldByName('partno').AsString))=True then
+    if RowExist('SELECT COUNT(*)ct FROM inv_parts_tab WHERE partno='+QuotedStr(qrStgBase.FieldByName('partno').AsString)+' AND site='+QuotedStr(frmMrp.Site))=True then
     begin
        MessageDlg('Part No already exist!',mtInformation,[mbOK],0);
        Abort;
@@ -151,7 +151,7 @@ end;
 procedure TfrmItems.FormShow(Sender: TObject);
 begin
   inherited;
-   OpenSQL('SELECT * FROM inv_parts_tab LIMIT 100');
+   OpenSQL('SELECT * FROM inv_parts_tab WHERE site='+QuotedStr(frmMrp.Site)+' LIMIT 100');
    dmMRP.OpenPartType;
    dmMRP.OpenProductCode;
    dmMRP.OpenUom;

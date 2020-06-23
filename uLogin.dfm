@@ -4,7 +4,7 @@ object frmLogin: TfrmLogin
   BorderStyle = bsNone
   Caption = 'Login'
   ClientHeight = 204
-  ClientWidth = 488
+  ClientWidth = 401
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,14 +19,11 @@ object frmLogin: TfrmLogin
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 0
-    Width = 488
+    Width = 401
     Height = 204
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 136
-    ExplicitTop = 56
-    ExplicitWidth = 300
-    ExplicitHeight = 250
+    ExplicitWidth = 488
     object Image1: TImage
       Left = 11
       Top = 40
@@ -752,7 +749,7 @@ object frmLogin: TfrmLogin
       Style.HotTrack = False
       TabOrder = 0
       OnKeyDown = cxTextEdit1KeyDown
-      Width = 291
+      Width = 204
     end
     object cxTextEdit2: TcxTextEdit
       Left = 186
@@ -763,12 +760,12 @@ object frmLogin: TfrmLogin
       Style.HotTrack = False
       TabOrder = 1
       OnKeyDown = cxTextEdit2KeyDown
-      Width = 291
+      Width = 204
     end
     object Label1: TLabel
       Left = 11
       Top = 11
-      Width = 466
+      Width = 379
       Height = 23
       Caption = 'LOGIN'
       Color = clWindow
@@ -781,7 +778,7 @@ object frmLogin: TfrmLogin
       ParentFont = False
     end
     object cxButton1: TcxButton
-      Left = 321
+      Left = 234
       Top = 168
       Width = 75
       Height = 25
@@ -790,7 +787,7 @@ object frmLogin: TfrmLogin
       OnClick = cxButton1Click
     end
     object cxButton2: TcxButton
-      Left = 402
+      Left = 315
       Top = 168
       Width = 75
       Height = 25

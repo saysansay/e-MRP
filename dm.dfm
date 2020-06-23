@@ -9,6 +9,7 @@ object dmMRP: TdmMRP
     Pooling = True
     Username = 'root'
     Server = 'localhost'
+    Connected = True
     ConnectDialog = dlgMySQL
     LoginPrompt = False
     Left = 64

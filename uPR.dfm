@@ -38,46 +38,64 @@ inherited frmPR: TfrmPR
               Kind = bkEllipsis
             end>
           Properties.OnButtonClick = grDetailDBpurch_partnoPropertiesButtonClick
+          Width = 82
         end
         object grDetailDBpurch_partname: TcxGridDBColumn
           Caption = 'Part Name'
           DataBinding.FieldName = 'purch_partname'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          Width = 82
         end
         object grDetailDBpr_qty: TcxGridDBColumn
           Caption = 'Qty'
           DataBinding.FieldName = 'pr_qty'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.AssignedValues.DisplayFormat = True
+          Width = 83
         end
         object grDetailDBpurch_uom: TcxGridDBColumn
           Caption = 'Uom'
           DataBinding.FieldName = 'purch_uom'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          Width = 82
         end
         object grDetailDBtax_code: TcxGridDBColumn
           Caption = 'Tax Code'
           DataBinding.FieldName = 'tax_code'
           PropertiesClassName = 'TcxTextEditProperties'
           Properties.ReadOnly = True
+          Width = 82
         end
         object grDetailDBColumn1: TcxGridDBColumn
           Caption = 'Price'
           DataBinding.FieldName = 'price'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.AssignedValues.DisplayFormat = True
+          Width = 82
         end
         object grDetailDBamount: TcxGridDBColumn
           Caption = 'Amount'
           DataBinding.FieldName = 'amount'
           PropertiesClassName = 'TcxCurrencyEditProperties'
           Properties.AssignedValues.DisplayFormat = True
+          Width = 68
         end
         object grDetailDBbuyer: TcxGridDBColumn
           Caption = 'Buyer'
           DataBinding.FieldName = 'buyer'
+          Width = 53
+        end
+        object grDetailDBColumn2: TcxGridDBColumn
+          Caption = 'Plan Receipt Date'
+          DataBinding.FieldName = 'plan_receipt_date'
+          PropertiesClassName = 'TcxDateEditProperties'
+          Width = 126
+        end
+        object grDetailDBColumn3: TcxGridDBColumn
+          Caption = 'Supplier Code'
+          DataBinding.FieldName = 'supplier_code'
         end
       end
     end
@@ -248,66 +266,9 @@ inherited frmPR: TfrmPR
   inherited dxBarDockControl1: TdxBarDockControl
     Width = 774
     ExplicitWidth = 774
-    ExplicitHeight = 28
   end
   inherited Bar10001: TdxBarManager
     PixelsPerInch = 96
-    inherited dxBarManager1Bar1: TdxBar
-      ItemLinks = <
-        item
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHNew'
-        end
-        item
-          BeginGroup = True
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHEdit'
-        end
-        item
-          BeginGroup = True
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHDelete'
-        end
-        item
-          BeginGroup = True
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHSave'
-        end
-        item
-          BeginGroup = True
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHCancel'
-        end
-        item
-          BeginGroup = True
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHRefresh'
-        end
-        item
-          BeginGroup = True
-          UserDefine = [udPaintStyle]
-          UserPaintStyle = psCaptionGlyph
-          Visible = True
-          ItemName = 'btnHFind'
-        end
-        item
-          BeginGroup = True
-          Visible = True
-          ItemName = 'btnHReport'
-        end>
-    end
     inherited btnHSave: TdxBarButton
       OnClick = btnHSaveClick
     end

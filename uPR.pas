@@ -38,6 +38,8 @@ type
     grDetailDBColumn1: TcxGridDBColumn;
     cxDBCurrencyEdit1: TcxDBCurrencyEdit;
     dxLayoutItem8: TdxLayoutItem;
+    grDetailDBColumn2: TcxGridDBColumn;
+    grDetailDBColumn3: TcxGridDBColumn;
     procedure FormShow(Sender: TObject);
     procedure qrMSTBeforePost(DataSet: TDataSet);
     procedure btnHSaveClick(Sender: TObject);
@@ -70,7 +72,7 @@ implementation
 
 {$R *.dfm}
 
-uses fBaseFind, dm;
+uses fBaseFind, dm, eMRP;
 
 procedure TfrmPR.btnDCancelClick(Sender: TObject);
 begin
@@ -153,8 +155,8 @@ procedure TfrmPR.grDetailDBpurch_partnoPropertiesButtonClick(Sender: TObject;
 begin
   inherited;
   Application.CreateForm(TfrmBaseFind,frmBaseFind);
-  frmBaseFind.ShowSQL('SELECT PURCH_PARTNO,PURCH_PARTNAME,PRIMARY_SUPPLIER,PURCH_UOM,PURCH_PRICE,BUYER,TAX_CODE FROM purchasepart_tab');
-  frmBaseFind.sSQLFind :='SELECT PURCH_PARTNO,PURCH_PARTNAME,PRIMARY_SUPPLIER,PURCH_UOM,PURCH_PRICE,BUYER,TAX_CODE FROM purchasepart_tab  WHERE purch_partno LIKE :f1 OR purch_partname LIKE :f1';
+  frmBaseFind.ShowSQL('SELECT PURCH_PARTNO,PURCH_PARTNAME,PRIMARY_SUPPLIER,PURCH_UOM,PURCH_PRICE,BUYER,TAX_CODE,PRIMARY_SUPPLIER FROM purchasepart_tab WHERE site='+QuotedStr(frmMrp.Site));
+  frmBaseFind.sSQLFind :='SELECT PURCH_PARTNO,PURCH_PARTNAME,PRIMARY_SUPPLIER,PURCH_UOM,PURCH_PRICE,BUYER,TAX_CODE,PRIMARY_SUPPLIER FROM purchasepart_tab  WHERE purch_partno LIKE :f1 OR purch_partname LIKE :f1 AND site='+QuotedStr(frmMrp.Site);
   if frmBaseFind.ShowModal=mrOk then
   begin
     qrDTL.FieldByName('purch_partno').AsString :=frmBaseFind.qrFind.FieldByName('PURCH_PARTNO').AsString;
@@ -165,6 +167,7 @@ begin
     qrDTL.FieldByName('amount').AsFloat := qrDTL.FieldByName('pr_qty').AsFloat * qrDTL.FieldByName('price').AsFloat;
     qrDTL.FieldByName('tax_code').AsString :=frmBaseFind.qrFind.FieldByName('tax_code').AsString;
     qrDTL.FieldByName('buyer').AsString :=frmBaseFind.qrFind.FieldByName('buyer').AsString;
+    qrDTL.FieldByName('supplier_code').AsString := frmBaseFind.qrFind.FieldByName('primary_supplier').AsString;
   end;
      //OpenSQL('SELECT * FROM purchasepart_tab WHERE purch_partno LIKE'+QuotedStr(frmBaseFind.ReturnValue));
 

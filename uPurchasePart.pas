@@ -78,9 +78,9 @@ end;
 procedure TfrmPurchasePart.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  OpenSQL('SELECT * FROM purchasepart_tab LIMIT 100');
+  OpenSQL('SELECT * FROM purchasepart_tab WHERE site='+QuotedStr(frmMrp.Site)+' LIMIT 100');
   dmMRP.OpenSupplier;
-  dmMRP.OpenInvParts;
+  dmMRP.OpenInvParts(frmMrp.Site);
   dmMRP.OpenTax;
 end;
 
@@ -90,7 +90,7 @@ begin
    if qrStgBase.State = dsInsert then
   begin
     if RowExist('SELECT COUNT(*)ct FROM purchasepart_tab WHERE purch_partno='+QuotedStr(qrStgBase.FieldByName('purch_partno').AsString)+
-    ' AND primary_supplier='+QuotedStr(qrStgBase.FieldByName('primary_supplier').AsString))=true then
+    ' AND primary_supplier='+QuotedStr(qrStgBase.FieldByName('primary_supplier').AsString)+' AND site='+QuotedStr(frmMrp.Site))=true then
     begin
        MessageDlg('Purchase Partno already exist!',mtInformation,[mbOK],0);
        Abort;
@@ -118,9 +118,9 @@ end;
 procedure TfrmPurchasePart.FormShow(Sender: TObject);
 begin
   inherited;
-  OpenSQL('SELECT * FROM purchasepart_tab LIMIT 100');
+  OpenSQL('SELECT * FROM purchasepart_tab WHERE site='+QuotedStr(frmMrp.Site)+' LIMIT 100');
   dmMRP.OpenSupplier;
-  dmMRP.OpenInvParts;
+  dmMRP.OpenInvParts(frmMrp.Site);
   dmMRP.OpenTax;
 end;
 

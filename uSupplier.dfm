@@ -351,5 +351,6 @@ inherited frmSupplier: TfrmSupplier
   inherited qrStgBase: TUniQuery
     SQL.Strings = (
       'SELECT * FROM supplier_tab')
+    BeforePost = qrStgBaseBeforePost
   end
 end

@@ -66,6 +66,8 @@ type
     dxBarButton2: TdxBarButton;
     m5000: TdxBarSubItem;
     M5001: TdxBarButton;
+    M5003: TdxBarButton;
+    Header: TcxStyle;
     M5002: TdxBarButton;
     procedure M2001Click(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -99,6 +101,7 @@ type
     procedure setUser(value:string);
     function getUser :string;
     procedure ShowForm(frmID :Integer);
+    procedure closeChild;
 
   public
     { Public declarations }
@@ -149,6 +152,7 @@ begin
      begin
        IsLogin :=False;
        M0002.Caption:='Login';
+       closeChild;
        Application.CreateForm(TfrmLogin,frmLogin);
        frmLogin.ShowModal
      end;
@@ -326,6 +330,15 @@ begin
     end;
   end;
 
+end;
+
+procedure TfrmMrp.closeChild;
+var
+  I: Integer;
+begin
+  with frmMrp do
+    for I := MDIChildCount-1 downto 0 do
+     MDIChildren[I].Close;
 end;
 
 procedure TfrmMrp.FormCreate(Sender: TObject);

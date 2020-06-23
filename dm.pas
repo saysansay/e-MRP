@@ -5,7 +5,7 @@ interface
 uses
   System.SysUtils, System.Classes, UniProvider, MySQLUniProvider, Data.DB,
   DBAccess, Uni, UniDacVcl,System.JSON,System.IOUtils,Forms, Vcl.ImgList,
-  Vcl.Controls, cxImageList, cxGraphics, MemDS;
+  Vcl.Controls, cxImageList, cxGraphics, MemDS,IdHashMessageDigest,Vcl.Dialogs;
 
 type
   TdmMRP = class(TDataModule)
@@ -47,6 +47,7 @@ type
     function GetPriceFormat:string;
     function GetQtyFormatBySite(FSite:string):string;
     function GetPriceFormatBySite(FSite:string):string;
+    function MD5(const Str:string):string;
 
   public
     { Public declarations }
@@ -66,7 +67,7 @@ type
     procedure OpenUom;
     procedure OpenTerm;
     procedure OpenSupplier;
-    procedure OpenInvParts;
+    procedure OpenInvParts(FSite:string);
     procedure OpenTax;
     function RegisterUser(FUserName,FPass,FCPass,FSite:string;FSalt:Integer):Boolean;
     function Login(UserName,FPass:string):Boolean;
@@ -187,11 +188,25 @@ begin
     SQL.Clear;
     SQL.Text :='SELECT password,salt from users_tab WHERE username='+QuotedStr(UserName)+' AND verified='+QuotedStr('Y') +' AND locked<>'+QuotedStr('Y');
     Open;
-    if FPass =DecryptStr(qrCmd.FieldByName('password').AsString,qrCmd.FieldByName('salt').AsInteger) then
+    //ShowMessage(LowerCase(MD5(FPass+qrCmd.FieldByName('salt').AsString)));
+    if MD5(FPass+IntToStr(qrCmd.FieldByName('salt').AsInteger)) =qrCmd.FieldByName('password').AsString then
        Result :=True
     else
        Result :=False;
   end;
+end;
+
+function TdmMRP.MD5(const Str: string): string;
+var
+  idmd5 : TIdHashMessageDigest5;
+  begin
+      idmd5 := TIdHashMessageDigest5.Create;
+      try
+        result := idmd5.HashStringAsHex(UTF8Encode(Str));
+      finally
+        idmd5.Free;
+      end;
+
 end;
 
 procedure TdmMRP.OpenCurrency;
@@ -217,12 +232,12 @@ begin
   end;
 end;
 
-procedure TdmMRP.OpenInvParts;
+procedure TdmMRP.OpenInvParts(FSite:string);
 begin
   with qrPart do
   begin
     Close;
-    SQL.Text :='SELECT partno,partname FROM inv_parts_tab';
+    SQL.Text :='SELECT partno,partname FROM inv_parts_tab where site='+QuotedStr(FSite);
     Open;
   end;
 end;
@@ -365,7 +380,7 @@ begin
           Close;
           SQL.Text :='INSERT INTO users_tab(username,password,salt,site)VALUE(:usr,:pass,:salt,:site)';
           ParamByName('usr').AsString:=FUserName;
-          ParamByName('pass').AsString :=EncryptStr(FPass,FSalt);
+          ParamByName('pass').AsString :=MD5(FPass+IntToStr(FSalt));
           ParamByName('salt').AsInteger :=FSalt;
           ParamByName('site').AsString :=FSite;
           Execute;

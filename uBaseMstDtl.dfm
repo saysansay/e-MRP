@@ -7,7 +7,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -12
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIChild
@@ -17,7 +17,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
   OnClose = FormClose
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 14
   object dxLayoutControl1: TdxLayoutControl
     Left = 0
     Top = 28
@@ -25,7 +25,6 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     Height = 311
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 505
     object grDetail: TcxGrid
       Left = 10
       Top = 76
@@ -41,7 +40,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
         OptionsView.ColumnAutoWidth = True
         OptionsView.GroupByBox = False
         OptionsView.Indicator = True
-        Styles.Header = frmMrp.stlMenu
+        Styles.Header = frmMrp.Header
         Styles.InplaceEditFormItem = frmMrp.stlMenu
       end
       object grDetailLevel1: TcxGridLevel
@@ -71,6 +70,7 @@ object frmBaseMstDtl: TfrmBaseMstDtl
       AlignVert = avTop
       CaptionOptions.Text = 'New Group'
       CaptionOptions.Visible = False
+      LayoutLookAndFeel = dxLayoutStandardLookAndFeel1
       ButtonOptions.Buttons = <>
       Index = 0
     end
@@ -118,8 +118,6 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     Height = 28
     Align = dalTop
     BarManager = Bar10001
-    ExplicitWidth = 505
-    ExplicitHeight = 57
   end
   object Bar10001: TdxBarManager
     Font.Charset = DEFAULT_CHARSET
@@ -491,5 +489,18 @@ object frmBaseMstDtl: TfrmBaseMstDtl
     Left = 232
     Top = 132
     PixelsPerInch = 96
+  end
+  object dxLayoutLookAndFeelList1: TdxLayoutLookAndFeelList
+    Left = 40
+    Top = 8
+    object dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel
+      ItemOptions.CaptionOptions.Font.Charset = DEFAULT_CHARSET
+      ItemOptions.CaptionOptions.Font.Color = clWindowText
+      ItemOptions.CaptionOptions.Font.Height = -12
+      ItemOptions.CaptionOptions.Font.Name = 'Tahoma'
+      ItemOptions.CaptionOptions.Font.Style = []
+      ItemOptions.CaptionOptions.UseDefaultFont = False
+      PixelsPerInch = 96
+    end
   end
 end

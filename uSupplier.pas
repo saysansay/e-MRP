@@ -45,6 +45,7 @@ type
     procedure btnSaveClick(Sender: TObject);
     procedure btnRefreshClick(Sender: TObject);
     procedure btnFindClick(Sender: TObject);
+    procedure qrStgBaseBeforePost(DataSet: TDataSet);
   private
     { Private declarations }
   public
@@ -58,7 +59,7 @@ implementation
 
 {$R *.dfm}
 
-uses fBaseFind, dm;
+uses fBaseFind, dm, eMRP;
 
 procedure TfrmSupplier.btnDuplicateClick(Sender: TObject);
 begin
@@ -70,17 +71,17 @@ procedure TfrmSupplier.btnFindClick(Sender: TObject);
 begin
   inherited;
   Application.CreateForm(TfrmBaseFind,frmBaseFind);
-  frmBaseFind.ShowSQL('SELECT SUPPLIER_CODE,SUPPLIER_NAME FROM supplier_tab');
-  frmBaseFind.sSQLFind :='SELECT SUPPLIER_CODE,SUPPLIER_NAME FROM supplier_tab WHERE supplier_code LIKE :f1 OR supplier_name LIKE :f1';
+  frmBaseFind.ShowSQL('SELECT SUPPLIER_CODE,SUPPLIER_NAME FROM supplier_tab WHERE site='+QuotedStr(frmMrp.Site));
+  frmBaseFind.sSQLFind :='SELECT SUPPLIER_CODE,SUPPLIER_NAME FROM supplier_tab WHERE supplier_code LIKE :f1 OR supplier_name LIKE :f1 AND  site='+QuotedStr(frmMrp.Site);
   if frmBaseFind.ShowModal=mrOk then
-     OpenSQL('SELECT * FROM supplier_tab WHERE supplier_code LIKE'+QuotedStr(frmBaseFind.ReturnValue));
+     OpenSQL('SELECT * FROM supplier_tab WHERE supplier_code LIKE'+QuotedStr(frmBaseFind.ReturnValue)+' AND site='+QuotedStr(frmMrp.Site));
 
 end;
 
 procedure TfrmSupplier.btnRefreshClick(Sender: TObject);
 begin
   inherited;
-  OpenSQL('SELECT * FROM supplier_tab LIMIT 100');
+  OpenSQL('SELECT * FROM supplier_tab WHERE site='+QuotedStr(frmMrp.Site)+' LIMIT 100');
   dmMRP.OpenCurrency;
   dmMRP.OpenTerm;
 end;
@@ -90,7 +91,7 @@ begin
   inherited;
    if qrStgBase.State = dsInsert then
   begin
-    if RowExist('SELECT COUNT(*)ct FROM supplier_tab WHERE supplier_code='+QuotedStr(qrStgBase.FieldByName('supplier_code').AsString))=True then
+    if RowExist('SELECT COUNT(*)ct FROM supplier_tab WHERE supplier_code='+QuotedStr(qrStgBase.FieldByName('supplier_code').AsString)+' AND Site='+QuotedStr(frmMrp.Site))=True then
     begin
        MessageDlg('Supplier Code already exist!',mtInformation,[mbOK],0);
        Abort;
@@ -105,9 +106,16 @@ end;
 procedure TfrmSupplier.FormShow(Sender: TObject);
 begin
   inherited;
-  OpenSQL('SELECT * FROM supplier_tab LIMIT 100');
+  OpenSQL('SELECT * FROM supplier_tab WHERE site='+QuotedStr(frmMrp.Site)+' LIMIT 100');
   dmMRP.OpenCurrency;
   dmMRP.OpenTerm;
+end;
+
+procedure TfrmSupplier.qrStgBaseBeforePost(DataSet: TDataSet);
+begin
+  inherited;
+  if qrStgBase.State in [dsInsert,dsEdit] then
+     qrStgBase.FieldByName('site').AsString :=frmMrp.Site;
 end;
 
 end.

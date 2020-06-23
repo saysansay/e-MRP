@@ -7,7 +7,7 @@ object frmStgBase: TfrmStgBase
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -12
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIChild
@@ -18,7 +18,7 @@ object frmStgBase: TfrmStgBase
   OnCloseQuery = FormCloseQuery
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
-  TextHeight = 13
+  TextHeight = 14
   object DL100001: TdxLayoutControl
     Left = 0
     Top = 0
@@ -129,7 +129,7 @@ object frmStgBase: TfrmStgBase
       OnClick = cxButton2Click
     end
     object txtRecord: TcxSpinEdit
-      Left = 134
+      Left = 139
       Top = 10
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -139,7 +139,7 @@ object frmStgBase: TfrmStgBase
       Width = 50
     end
     object txtTotal: TcxSpinEdit
-      Left = 219
+      Left = 228
       Top = 10
       Style.BorderColor = clWindowFrame
       Style.BorderStyle = ebs3D
@@ -149,7 +149,7 @@ object frmStgBase: TfrmStgBase
       Width = 50
     end
     object btnNext: TcxButton
-      Left = 275
+      Left = 284
       Top = 10
       Width = 35
       Height = 25
@@ -158,7 +158,7 @@ object frmStgBase: TfrmStgBase
       OnClick = btnNextClick
     end
     object cxButton1: TcxButton
-      Left = 316
+      Left = 325
       Top = 10
       Width = 35
       Height = 25
@@ -319,7 +319,7 @@ object frmStgBase: TfrmStgBase
       Parent = LY10003
       CaptionOptions.Text = 'Record '
       Control = txtRecord
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 22
       ControlOptions.OriginalWidth = 50
       ControlOptions.ShowBorder = False
       Index = 2
@@ -328,7 +328,7 @@ object frmStgBase: TfrmStgBase
       Parent = LY10003
       CaptionOptions.Text = 'Total'
       Control = txtTotal
-      ControlOptions.OriginalHeight = 21
+      ControlOptions.OriginalHeight = 22
       ControlOptions.OriginalWidth = 50
       ControlOptions.ShowBorder = False
       Index = 3

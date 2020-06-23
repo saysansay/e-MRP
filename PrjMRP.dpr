@@ -24,7 +24,8 @@ uses
   uTax in 'uTax.pas' {frmTaxCode},
   uPR in 'uPR.pas' {frmPR},
   uRegister in 'uRegister.pas' {frmRegister},
-  uLogin in 'uLogin.pas' {frmLogin};
+  uLogin in 'uLogin.pas' {frmLogin},
+  uPRtoPO in 'uPRtoPO.pas' {frmPRtoPO};
 
 {$R *.res}
 
@@ -33,5 +34,6 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TdmMRP, dmMRP);
   Application.CreateForm(TfrmMrp, frmMrp);
+  Application.CreateForm(TfrmPRtoPO, frmPRtoPO);
   Application.Run;
 end.

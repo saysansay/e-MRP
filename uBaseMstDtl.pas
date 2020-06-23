@@ -12,7 +12,7 @@ uses
   cxDataControllerConditionalFormattingRulesManagerDialog, Data.DB, cxDBData,
   cxGridLevel, cxGridCustomView, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGrid, MemDS, DBAccess, Uni, QImport3Wizard, cxLabel,
-  cxBarEditItem, dxRibbon;
+  cxBarEditItem, dxRibbon, dxLayoutLookAndFeels;
 
 type
   TfrmBaseMstDtl = class(TForm)
@@ -55,6 +55,8 @@ type
     btnDCancel: TdxBarButton;
     popupHeader: TdxRibbonPopupMenu;
     btnHRefresh: TdxBarButton;
+    dxLayoutLookAndFeelList1: TdxLayoutLookAndFeelList;
+    dxLayoutStandardLookAndFeel1: TdxLayoutStandardLookAndFeel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dsMSTStateChange(Sender: TObject);
     procedure btnDNewClick(Sender: TObject);
